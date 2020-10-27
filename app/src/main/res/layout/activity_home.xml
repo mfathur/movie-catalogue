@@ -8,19 +8,20 @@
     tools:context=".ui.home.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/homeToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary"/>
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ToolbarComponentColor"
+        app:titleTextColor="@android:color/white" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        app:tabTextColor="@android:color/white"
-        app:tabIndicatorColor="@android:color/white"/>
+        app:tabIndicatorColor="@android:color/white"
+        app:tabTextColor="@android:color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

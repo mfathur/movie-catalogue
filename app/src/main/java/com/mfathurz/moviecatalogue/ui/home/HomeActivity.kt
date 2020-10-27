@@ -16,8 +16,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        toolbar.title = ""
-        setSupportActionBar(toolbar)
+        homeToolbar.title = ""
+        setSupportActionBar(homeToolbar)
 
         viewPager.adapter = HomeViewPagerAdapter(this)
 
