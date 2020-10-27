@@ -2,6 +2,7 @@ package com.mfathurz.moviecatalogue.ui.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.mfathurz.moviecatalogue.R
 import kotlinx.android.synthetic.main.activity_detail.*
 
