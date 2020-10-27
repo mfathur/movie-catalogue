@@ -15,6 +15,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnToDetail"
+        style="@style/ButtonTint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="detail" />

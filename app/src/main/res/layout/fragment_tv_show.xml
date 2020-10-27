@@ -6,8 +6,7 @@
     android:background="@color/white"
     android:gravity="center"
     tools:context=".ui.tv.TVShowFragment">
-
-
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
