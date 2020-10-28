@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogue">
         <activity
-            android:name=".ui.detail.DetailActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ui.detail.DetailActivity" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait">

@@ -4,6 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.mfathurz.moviecatalogue.db.DataTVShow
 import com.mfathurz.moviecatalogue.model.TVShowEntity
 
-class TVShowViewModel : ViewModel(){
+class TVShowViewModel : ViewModel() {
     fun getAllTVShows(): List<TVShowEntity> = DataTVShow.queryAllTVShows()
 }

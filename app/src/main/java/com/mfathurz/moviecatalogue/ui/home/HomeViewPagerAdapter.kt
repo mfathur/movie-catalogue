@@ -19,8 +19,8 @@ class HomeViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
     companion object {
-       const val MOVIE_FRAGMENT = 0
-       const val TV_SHOW_FRAGMENT = 1
+        const val MOVIE_FRAGMENT = 0
+        const val TV_SHOW_FRAGMENT = 1
     }
 
 }

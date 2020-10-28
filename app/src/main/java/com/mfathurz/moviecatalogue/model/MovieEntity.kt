@@ -1,5 +1,9 @@
 package com.mfathurz.moviecatalogue.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class MovieEntity(
     var title: String,
     var imageUrl: Int,
@@ -11,4 +15,4 @@ data class MovieEntity(
     var time: String,
     var language: String,
     var casters: String
-)
+) : Parcelable
