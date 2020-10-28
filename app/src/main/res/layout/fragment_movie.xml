@@ -4,20 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
     android:orientation="vertical"
+    android:paddingHorizontal="16dp"
     tools:context=".ui.movie.MovieFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMovies"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MOVIE FRAGMENT" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnToDetail"
-        style="@style/ButtonTint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="detail" />
+        tools:listitem="@layout/item_movie_tv_show_recycler" />
 
 </LinearLayout>

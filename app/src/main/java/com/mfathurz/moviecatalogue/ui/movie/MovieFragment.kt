@@ -1,20 +1,19 @@
 package com.mfathurz.moviecatalogue.ui.movie
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 
-class MovieFragment : Fragment(),View.OnClickListener {
+class MovieFragment : Fragment() {
 
-    private lateinit var viewModel : MovieViewModel
+    private lateinit var viewModel: MovieViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,17 +26,14 @@ class MovieFragment : Fragment(),View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MovieViewModel::class.java]
+        val listMovies = viewModel.getAllMovies()
+        val recyclerAdapter = MovieRecyclerAdapter()
+        recyclerAdapter.setMovies(listMovies)
 
-        btnToDetail.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when(v.id){
-            R.id.btnToDetail-> {
-                val intent = Intent(context,DetailActivity::class.java)
-                startActivity(intent)
-            }
+        rvMovies.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = recyclerAdapter
         }
     }
-
 }

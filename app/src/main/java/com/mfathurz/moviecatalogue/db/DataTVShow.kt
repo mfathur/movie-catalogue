@@ -4,7 +4,7 @@ import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.model.TVShowEntity
 
 object DataTVShow {
-    fun queryAllTVShow(): List<TVShowEntity> {
+    fun queryAllTVShows(): List<TVShowEntity> {
         val tvShows = mutableListOf<TVShowEntity>()
 
         tvShows.add(

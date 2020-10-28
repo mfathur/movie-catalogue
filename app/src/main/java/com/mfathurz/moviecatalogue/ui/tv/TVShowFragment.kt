@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
+import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 
 class TVShowFragment : Fragment() {
@@ -24,6 +26,16 @@ class TVShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[TVShowViewModel::class.java]
+
+        val listTVShow = viewModel.getAllTVShows()
+        val recyclerAdapter = TVShowRecyclerAdapter()
+        recyclerAdapter.setTVShow(listTVShow)
+
+        rvTVShow.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = recyclerAdapter
+        }
     }
 
 }

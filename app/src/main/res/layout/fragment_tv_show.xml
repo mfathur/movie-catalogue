@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
+    android:paddingHorizontal="16dp"
     tools:context=".ui.tv.TVShowFragment">
-    
-    <TextView
-        android:layout_width="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTVShow"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TV SHOW FRAGMENT" />
+        tools:listitem="@layout/item_movie_tv_show_recycler" />
 
 </LinearLayout>
