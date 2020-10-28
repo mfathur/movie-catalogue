@@ -38,16 +38,15 @@ class HomeActivityTest {
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
         onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun loadDataRecyclerTVShow() {
-        onView(withText("TV SHOW")).perform(click())
-        onView(withId(R.id.rvTVShow)).check(matches(isDisplayed()))
-        onView(withId(R.id.rvTVShow)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
-        )
-        onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtTitle)).check(matches(withText(dummyMovies[0].title)))
+        onView(withId(R.id.txtCast)).check(matches(withText(dummyMovies[0].casters)))
+        onView(withId(R.id.txtCategory)).check(matches(withText(dummyMovies[0].category)))
+        onView(withId(R.id.txtReleasedDate)).check(matches(withText(dummyMovies[0].releaseDate)))
+        onView(withId(R.id.txtCreator)).check(matches(withText(dummyMovies[0].director)))
+        onView(withId(R.id.txtStatus)).check(matches(withText(dummyMovies[0].status)))
+        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyMovies[0].language)))
+        onView(withId(R.id.txtTime)).check(matches(withText(dummyMovies[0].time)))
+        onView(withId(R.id.txtOverview)).check(matches(withText(dummyMovies[0].overview)))
     }
 
     @Test
@@ -59,6 +58,25 @@ class HomeActivityTest {
                 dummyTVShows.size
             )
         )
+    }
+
+    @Test
+    fun loadDataRecyclerTVShow() {
+        onView(withText("TV SHOW")).perform(click())
+        onView(withId(R.id.rvTVShow)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvTVShow)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+        )
+        onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtTitle)).check(matches(withText(dummyTVShows[0].title)))
+        onView(withId(R.id.txtCast)).check(matches(withText(dummyTVShows[0].casters)))
+        onView(withId(R.id.txtCategory)).check(matches(withText(dummyTVShows[0].category)))
+        onView(withId(R.id.txtReleasedDate)).check(matches(withText(dummyTVShows[0].releaseDate)))
+        onView(withId(R.id.txtCreator)).check(matches(withText(dummyTVShows[0].creator)))
+        onView(withId(R.id.txtStatus)).check(matches(withText(dummyTVShows[0].status)))
+        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyTVShows[0].language)))
+        onView(withId(R.id.txtTime)).check(matches(withText(dummyTVShows[0].time)))
+        onView(withId(R.id.txtOverview)).check(matches(withText(dummyTVShows[0].overview)))
     }
 
 
