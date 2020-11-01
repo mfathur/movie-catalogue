@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.mfathurz.moviecatalogue.BuildConfig
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.ui.home.HomeViewPagerAdapter.Companion.MOVIE_FRAGMENT
 import com.mfathurz.moviecatalogue.ui.home.HomeViewPagerAdapter.Companion.TV_SHOW_FRAGMENT

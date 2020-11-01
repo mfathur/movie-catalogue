@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.model.TVShowEntity
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
+import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 
@@ -32,7 +33,8 @@ class TVShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[TVShowViewModel::class.java]
+        val factory = ViewModelFactory.getInstance()
+        viewModel = ViewModelProvider(this,factory)[TVShowViewModel::class.java]
 
         val listTVShow = viewModel.getAllTVShows()
         val recyclerAdapter = TVShowRecyclerAdapter()

@@ -1,4 +1,4 @@
-package com.mfathurz.moviecatalogue.db
+package com.mfathurz.moviecatalogue.db.local
 
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.model.TVShowEntity

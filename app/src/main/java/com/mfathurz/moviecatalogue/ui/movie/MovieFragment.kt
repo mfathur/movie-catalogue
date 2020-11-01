@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.model.MovieEntity
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
+import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 
@@ -32,7 +33,9 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[MovieViewModel::class.java]
+        val factory = ViewModelFactory.getInstance()
+        viewModel = ViewModelProvider(this,factory)[MovieViewModel::class.java]
+
         val listMovies = viewModel.getAllMovies()
         val recyclerAdapter = MovieRecyclerAdapter()
         recyclerAdapter.submitList(listMovies)

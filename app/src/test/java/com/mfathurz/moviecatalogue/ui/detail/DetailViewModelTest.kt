@@ -1,7 +1,7 @@
 package com.mfathurz.moviecatalogue.ui.detail
 
-import com.mfathurz.moviecatalogue.db.DataMovie
-import com.mfathurz.moviecatalogue.db.DataTVShow
+import com.mfathurz.moviecatalogue.db.local.DataMovie
+import com.mfathurz.moviecatalogue.db.local.DataTVShow
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

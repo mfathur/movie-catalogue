@@ -11,6 +11,7 @@ import com.mfathurz.moviecatalogue.model.MovieEntity
 import com.mfathurz.moviecatalogue.model.TVShowEntity
 import com.mfathurz.moviecatalogue.ui.movie.MovieFragment
 import com.mfathurz.moviecatalogue.ui.tv.TVShowFragment
+import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
@@ -26,7 +27,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+        val factory = ViewModelFactory.getInstance()
+        viewModel = ViewModelProvider(this,factory)[DetailViewModel::class.java]
 
         btnBackToHome.setOnClickListener(this)
         btnShare.setOnClickListener(this)
@@ -101,8 +103,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                         val movie = viewModel.getMovieData()
                         ShareCompat.IntentBuilder.from(this).apply {
                             setType(mimeType)
-                            setChooserTitle("Share this movie now")
-                            setText("let's watch ${movie.title}")
+                            setChooserTitle(getString(R.string.share_movie_title))
+                            setText(getString(R.string.share_movie_message,movie.title))
                             startChooser()
                         }
                     }
@@ -111,8 +113,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                         val tvShow = viewModel.getTVShowData()
                         ShareCompat.IntentBuilder.from(this).apply {
                             setType(mimeType)
-                            setChooserTitle("Share this TV show now")
-                            setText("let's watch ${tvShow.title}")
+                            setChooserTitle(getString(R.string.share_tv_show_title))
+                            setText(getString(R.string.share_tv_show_message,tvShow.title))
                             startChooser()
                         }
                     }

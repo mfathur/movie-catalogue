@@ -11,4 +11,8 @@
     <string name="status">Status</string>
     <string name="time">Time</string>
     <string name="language">Language</string>
+    <string name="share_tv_show_title">Share this TV show now</string>
+    <string name="share_tv_show_message">\"let\'s watch %s\"</string>
+    <string name="share_movie_title">Share this movie now</string>
+    <string name="share_movie_message">\"let\'s watch %s\"</string>
 </resources>
