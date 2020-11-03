@@ -8,24 +8,25 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.model.MovieEntity
+import com.mfathurz.moviecatalogue.db.remote.model.MovieResultsItem
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class MovieRecyclerAdapter :
-    ListAdapter<MovieEntity, MovieRecyclerAdapter.MovieViewHolder>(MovieDiffUtilCallback()) {
+    ListAdapter<MovieResultsItem, MovieRecyclerAdapter.MovieViewHolder>(MovieDiffUtilCallback()) {
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movieEntity: MovieEntity) {
+        fun bind(item: MovieResultsItem) {
             with(itemView) {
-                item_txt_title.text = movieEntity.title
-                item_txt_category.text = movieEntity.category
-                item_txt_status.text = movieEntity.status
-                item_img_poster.load(movieEntity.imageUrl) {
+                item_txt_title.text = item.title
+//                item_txt_category.text = item.category
+//                item_txt_status.text = movieEntity.status
+                item_img_poster.load(item.posterPath) {
                     crossfade(true)
                     placeholder(R.drawable.image_placeholder)
+                    error(R.drawable.ic_broken_image)
                 }
                 setOnClickListener {
-                    onItemClickCallback.onItemClicked(movieEntity)
+                    onItemClickCallback.onItemClicked(item)
                 }
             }
         }
@@ -42,7 +43,7 @@ class MovieRecyclerAdapter :
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(movieEntity: MovieEntity)
+        fun onItemClicked(movieResultsItem: MovieResultsItem)
     }
 
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -52,12 +53,12 @@ class MovieRecyclerAdapter :
     }
 }
 
-private class MovieDiffUtilCallback : DiffUtil.ItemCallback<MovieEntity>() {
-    override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
-        return oldItem.title == newItem.title
+private class MovieDiffUtilCallback : DiffUtil.ItemCallback<MovieResultsItem>() {
+    override fun areItemsTheSame(oldItem: MovieResultsItem, newItem: MovieResultsItem): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+    override fun areContentsTheSame(oldItem: MovieResultsItem, newItem: MovieResultsItem): Boolean {
         return oldItem == newItem
     }
 }

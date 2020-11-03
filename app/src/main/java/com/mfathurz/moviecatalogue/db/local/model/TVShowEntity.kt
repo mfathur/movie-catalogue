@@ -1,14 +1,14 @@
-package com.mfathurz.moviecatalogue.model
+package com.mfathurz.moviecatalogue.db.local.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class MovieEntity(
+data class TVShowEntity(
     val title: String,
     val imageUrl: Int,
     val overview: String,
-    val director: String,
+    val creator: String,
     val releaseDate: String,
     val category: String,
     val status: String,

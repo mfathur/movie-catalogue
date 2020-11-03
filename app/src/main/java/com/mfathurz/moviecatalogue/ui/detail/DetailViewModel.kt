@@ -2,8 +2,8 @@ package com.mfathurz.moviecatalogue.ui.detail
 
 import androidx.lifecycle.ViewModel
 import com.mfathurz.moviecatalogue.db.MovieRepository
-import com.mfathurz.moviecatalogue.model.MovieEntity
-import com.mfathurz.moviecatalogue.model.TVShowEntity
+import com.mfathurz.moviecatalogue.db.local.model.MovieEntity
+import com.mfathurz.moviecatalogue.db.local.model.TVShowEntity
 
 class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
     private var movieEntity: MovieEntity? = null

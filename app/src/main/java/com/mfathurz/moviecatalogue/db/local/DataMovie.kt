@@ -1,7 +1,7 @@
 package com.mfathurz.moviecatalogue.db.local
 
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.model.MovieEntity
+import com.mfathurz.moviecatalogue.db.local.model.MovieEntity
 
 object DataMovie {
     fun queryAllMovies(): List<MovieEntity> {

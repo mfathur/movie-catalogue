@@ -2,6 +2,7 @@ package com.mfathurz.moviecatalogue.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.model.MovieEntity
+import com.mfathurz.moviecatalogue.db.local.model.MovieEntity
+import com.mfathurz.moviecatalogue.db.remote.model.MovieResultsItem
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movie.*
@@ -34,27 +36,37 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val factory = ViewModelFactory.getInstance()
-        viewModel = ViewModelProvider(this,factory)[MovieViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
 
-        val listMovies = viewModel.getAllMovies()
+        viewModel.getLoadingState().observe(viewLifecycleOwner, { state ->
+            progressBar.visibility = if (state) View.VISIBLE else View.GONE
+        })
         val recyclerAdapter = MovieRecyclerAdapter()
-        recyclerAdapter.submitList(listMovies)
+
+        viewModel.getPopularMovies().observe(viewLifecycleOwner, { listMovies ->
+            listMovies.forEach {
+                Log.d("fragment", it.toString())
+            }
+            recyclerAdapter.submitList(listMovies)
+        })
+
+
 
         rvMovies.apply {
             layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
             adapter = recyclerAdapter
         }
 
         recyclerAdapter.setOnItemClickedCallback(object : MovieRecyclerAdapter.OnItemClickCallback {
-            override fun onItemClicked(movieEntity: MovieEntity) {
+            override fun onItemClicked(movieResultsItem: MovieResultsItem) {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.apply {
-                    putExtra(DetailActivity.EXTRA_DATA, movieEntity)
+                    putExtra(DetailActivity.EXTRA_DATA, movieResultsItem)
                     putExtra(DetailActivity.DATA_TYPE, DATA_MOVIE)
                 }
                 startActivity(intent)
             }
         })
     }
+
 }

@@ -7,8 +7,8 @@ import androidx.core.app.ShareCompat
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.model.MovieEntity
-import com.mfathurz.moviecatalogue.model.TVShowEntity
+import com.mfathurz.moviecatalogue.db.local.model.MovieEntity
+import com.mfathurz.moviecatalogue.db.local.model.TVShowEntity
 import com.mfathurz.moviecatalogue.ui.movie.MovieFragment
 import com.mfathurz.moviecatalogue.ui.tv.TVShowFragment
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory

@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.model.TVShowEntity
+import com.mfathurz.moviecatalogue.db.local.model.TVShowEntity
+import com.mfathurz.moviecatalogue.db.remote.model.TVResultsItem
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_tv_show.*
@@ -34,24 +35,30 @@ class TVShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val factory = ViewModelFactory.getInstance()
-        viewModel = ViewModelProvider(this,factory)[TVShowViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[TVShowViewModel::class.java]
 
-        val listTVShow = viewModel.getAllTVShows()
+        viewModel.getLoadingState().observe(viewLifecycleOwner, { state ->
+            progressBar.visibility = if (state) View.VISIBLE else View.GONE
+        })
+
         val recyclerAdapter = TVShowRecyclerAdapter()
-        recyclerAdapter.submitList(listTVShow)
+
+        viewModel.getPopularTVShows().observe(viewLifecycleOwner,{listTVShows->
+            recyclerAdapter.submitList(listTVShows)
+        })
+
 
         rvTVShow.apply {
             layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
             adapter = recyclerAdapter
         }
 
         recyclerAdapter.setOnItemClickedCallback(object :
             TVShowRecyclerAdapter.OnItemClickCallback {
-            override fun onItemClicked(tvShowEntity: TVShowEntity) {
+            override fun onItemClicked(tvResultsItem: TVResultsItem) {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.apply {
-                    putExtra(DetailActivity.EXTRA_DATA, tvShowEntity)
+                    putExtra(DetailActivity.EXTRA_DATA, tvResultsItem)
                     putExtra(DetailActivity.DATA_TYPE, DATA_TV_SHOW)
                 }
                 startActivity(intent)

@@ -1,7 +1,7 @@
 package com.mfathurz.moviecatalogue.db.local
 
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.model.TVShowEntity
+import com.mfathurz.moviecatalogue.db.local.model.TVShowEntity
 
 object DataTVShow {
     fun queryAllTVShows(): List<TVShowEntity> {
