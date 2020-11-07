@@ -7,12 +7,19 @@ import androidx.core.app.ShareCompat
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.db.local.model.MovieEntity
-import com.mfathurz.moviecatalogue.db.local.model.TVShowEntity
+import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
 import com.mfathurz.moviecatalogue.ui.movie.MovieFragment
 import com.mfathurz.moviecatalogue.ui.tv.TVShowFragment
+import com.mfathurz.moviecatalogue.util.Constants
+import com.mfathurz.moviecatalogue.util.UtilsHelper
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -27,8 +34,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        val factory = ViewModelFactory.getInstance()
-        viewModel = ViewModelProvider(this,factory)[DetailViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(this)
+        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         btnBackToHome.setOnClickListener(this)
         btnShare.setOnClickListener(this)
@@ -39,13 +46,13 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             viewModel.setDataType(type)
             when (type) {
                 MovieFragment.DATA_MOVIE -> {
-                    val data = intent.getParcelableExtra<MovieEntity>(EXTRA_DATA)
-                    viewModel.setMovieData(data)
+                    val data = intent.getParcelableExtra<MovieResultsItem>(EXTRA_DATA)
+                    viewModel.setMovieData(data as MovieResultsItem)
                 }
 
                 TVShowFragment.DATA_TV_SHOW -> {
-                    val data = intent.getParcelableExtra<TVShowEntity>(EXTRA_DATA)
-                    viewModel.setTVShowData(data)
+                    val data = intent.getParcelableExtra<TVResultsItem>(EXTRA_DATA)
+                    viewModel.setTVShowData(data as TVResultsItem)
                 }
             }
         }
@@ -56,36 +63,63 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         when (viewModel.getDataType()) {
             MovieFragment.DATA_MOVIE -> {
                 val movie = viewModel.getMovieData()
-                imgPoster.load(movie.imageUrl) {
+                imgPoster.load(Constants.POSTER_PATH_BASE_URL + movie.posterPath) {
                     crossfade(true)
                     placeholder(R.drawable.image_placeholder)
+                    error(R.drawable.ic_broken_image)
                 }
+                val genres = viewModel.getMovieGenres()
+                CoroutineScope(IO).launch {
+                    var genre = ""
+                    movie.genreIds?.forEach { genreId ->
+                        for (item in genres) {
+                            if (item.id == genreId) {
+                                genre += item.name + " "
+                            }
+                        }
+                    }
+                    withContext(Main) {
+                        txtCategory.text = genre
+                    }
+                }
+
                 txtTitle.text = movie.title
-                txtCategory.text = movie.category
-                txtCreator.text = movie.director
-                txtLanguage.text = movie.language
-                txtStatus.text = movie.status
-                txtTime.text = movie.time
+                txtLanguage.text = movie.originalLanguage
+                txtPopularity.text = movie.popularity.toString()
+                txtRating.text = movie.voteAverage.toString()
                 txtOverview.text = movie.overview
-                txtCast.text = movie.casters
-                txtReleasedDate.text = movie.releaseDate
+                txtReleasedDate.text = UtilsHelper.changeDateFormat(movie.releaseDate)
             }
 
             TVShowFragment.DATA_TV_SHOW -> {
                 val tvShow = viewModel.getTVShowData()
-                imgPoster.load(tvShow.imageUrl) {
+                imgPoster.load(Constants.POSTER_PATH_BASE_URL + tvShow.posterPath) {
                     crossfade(true)
                     placeholder(R.drawable.image_placeholder)
+                    error(R.drawable.ic_broken_image)
                 }
-                txtTitle.text = tvShow.title
-                txtCategory.text = tvShow.category
-                txtCreator.text = tvShow.creator
-                txtLanguage.text = tvShow.language
-                txtStatus.text = tvShow.status
-                txtTime.text = tvShow.time
+                val genres = viewModel.getTVShowGenres()
+                CoroutineScope(IO).launch {
+                    var genre = ""
+                    tvShow.genreIds?.forEach { genreId ->
+                        for (item in genres) {
+                            if (item.id == genreId) {
+                                genre += item.name + " "
+                            }
+                        }
+                    }
+                    withContext(Main) {
+                        txtCategory.text = genre
+                    }
+                }
+
+                txtTitle.text = tvShow.name
+                txtCategory.text = tvShow.genreIds.toString()
+                txtLanguage.text = tvShow.originalLanguage
+                txtPopularity.text = tvShow.popularity.toString()
+                txtRating.text = tvShow.voteAverage.toString()
                 txtOverview.text = tvShow.overview
-                txtCast.text = tvShow.casters
-                txtReleasedDate.text = tvShow.releaseDate
+                txtReleasedDate.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
             }
         }
     }
@@ -104,7 +138,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                         ShareCompat.IntentBuilder.from(this).apply {
                             setType(mimeType)
                             setChooserTitle(getString(R.string.share_movie_title))
-                            setText(getString(R.string.share_movie_message,movie.title))
+                            setText(getString(R.string.share_movie_message, movie.title))
                             startChooser()
                         }
                     }
@@ -114,7 +148,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                         ShareCompat.IntentBuilder.from(this).apply {
                             setType(mimeType)
                             setChooserTitle(getString(R.string.share_tv_show_title))
-                            setText(getString(R.string.share_tv_show_message,tvShow.title))
+                            setText(getString(R.string.share_tv_show_message, tvShow.name))
                             startChooser()
                         }
                     }

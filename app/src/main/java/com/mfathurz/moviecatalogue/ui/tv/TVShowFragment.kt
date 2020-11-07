@@ -9,8 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.db.local.model.TVShowEntity
-import com.mfathurz.moviecatalogue.db.remote.model.TVResultsItem
+import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_tv_show.*
@@ -34,16 +33,16 @@ class TVShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val factory = ViewModelFactory.getInstance()
+        val factory = ViewModelFactory.getInstance(requireActivity())
         viewModel = ViewModelProvider(this, factory)[TVShowViewModel::class.java]
-
-        viewModel.getLoadingState().observe(viewLifecycleOwner, { state ->
+        viewModel.getPopularTVShows()
+        viewModel.isLoading.observe(viewLifecycleOwner, { state ->
             progressBar.visibility = if (state) View.VISIBLE else View.GONE
         })
 
         val recyclerAdapter = TVShowRecyclerAdapter()
 
-        viewModel.getPopularTVShows().observe(viewLifecycleOwner,{listTVShows->
+        viewModel.popularTVShows.observe(viewLifecycleOwner, { listTVShows ->
             recyclerAdapter.submitList(listTVShows)
         })
 

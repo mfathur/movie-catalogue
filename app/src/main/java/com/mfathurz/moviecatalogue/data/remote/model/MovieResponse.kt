@@ -1,4 +1,4 @@
-package com.mfathurz.moviecatalogue.db.remote.model
+package com.mfathurz.moviecatalogue.data.remote.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -31,14 +31,11 @@ data class MovieResultsItem(
 	@field:SerializedName("original_title")
 	val originalTitle: String,
 
-	@field:SerializedName("video")
-	val video: Boolean,
-
 	@field:SerializedName("title")
 	val title: String,
 
 	@field:SerializedName("genre_ids")
-	val genreIds: List<Int>,
+	val genreIds: List<Int>?,
 
 	@field:SerializedName("poster_path")
 	val posterPath: String,
@@ -58,9 +55,7 @@ data class MovieResultsItem(
 	@field:SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("adult")
-	val adult: Boolean,
-
 	@field:SerializedName("vote_count")
-	val voteCount: Int
-) : Parcelable
+	val voteCount: Int,
+
+	) : Parcelable

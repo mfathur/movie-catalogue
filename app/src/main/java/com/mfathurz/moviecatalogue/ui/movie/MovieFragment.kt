@@ -2,7 +2,6 @@ package com.mfathurz.moviecatalogue.ui.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.db.local.model.MovieEntity
-import com.mfathurz.moviecatalogue.db.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movie.*
@@ -35,22 +33,18 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val factory = ViewModelFactory.getInstance()
+        val factory = ViewModelFactory.getInstance(requireActivity())
         viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
+        viewModel.getPopularMovies()
 
-        viewModel.getLoadingState().observe(viewLifecycleOwner, { state ->
+        viewModel.isLoading.observe(viewLifecycleOwner, { state ->
             progressBar.visibility = if (state) View.VISIBLE else View.GONE
         })
         val recyclerAdapter = MovieRecyclerAdapter()
 
-        viewModel.getPopularMovies().observe(viewLifecycleOwner, { listMovies ->
-            listMovies.forEach {
-                Log.d("fragment", it.toString())
-            }
+        viewModel.popularMovies.observe(viewLifecycleOwner, { listMovies ->
             recyclerAdapter.submitList(listMovies)
         })
-
-
 
         rvMovies.apply {
             layoutManager = LinearLayoutManager(context)

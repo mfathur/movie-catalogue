@@ -3,23 +3,40 @@ package com.mfathurz.moviecatalogue.ui.home
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.db.local.DataMovie
-import com.mfathurz.moviecatalogue.db.local.DataTVShow
+import com.mfathurz.moviecatalogue.db.DataDummy
+import com.mfathurz.moviecatalogue.util.EspressoIdlingResource
+import com.mfathurz.moviecatalogue.util.UtilsHelper
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class HomeActivityTest {
-    private var dummyMovies = DataMovie.queryAllMovies()
-    private var dummyTVShows = DataTVShow.queryAllTVShows()
+    private var dummyMovies = DataDummy.generateDummyMovies()
+    private var dummyTVShows = DataDummy.generateDummyTVShows()
 
     @get:Rule
     val activityRule = ActivityScenarioRule(HomeActivity::class.java)
+
+
+    @Before
+    fun setUp() {
+        IdlingRegistry.getInstance()
+            .register(EspressoIdlingResource.getEspressoTestIdlingResource())
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance()
+            .unregister(EspressoIdlingResource.getEspressoTestIdlingResource())
+    }
 
     @Test
     fun checkRecyclerViewMoviesData() {
@@ -39,13 +56,19 @@ class HomeActivityTest {
         )
         onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
         onView(withId(R.id.txtTitle)).check(matches(withText(dummyMovies[0].title)))
-        onView(withId(R.id.txtCast)).check(matches(withText(dummyMovies[0].casters)))
-        onView(withId(R.id.txtCategory)).check(matches(withText(dummyMovies[0].category)))
-        onView(withId(R.id.txtReleasedDate)).check(matches(withText(dummyMovies[0].releaseDate)))
-        onView(withId(R.id.txtCreator)).check(matches(withText(dummyMovies[0].director)))
-        onView(withId(R.id.txtStatus)).check(matches(withText(dummyMovies[0].status)))
-        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyMovies[0].language)))
-        onView(withId(R.id.txtTime)).check(matches(withText(dummyMovies[0].time)))
+        onView(withId(R.id.txtCategory)).check(matches(withText(getMovieGenreText(dummyMovies[0].genreIds))))
+        onView(withId(R.id.txtReleasedDate)).check(
+            matches(
+                withText(
+                    UtilsHelper.changeDateFormat(
+                        dummyMovies[0].releaseDate
+                    )
+                )
+            )
+        )
+        onView(withId(R.id.txtPopularity)).check(matches(withText(dummyMovies[0].popularity.toString())))
+        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyMovies[0].originalLanguage)))
+        onView(withId(R.id.txtRating)).check(matches(withText(dummyMovies[0].voteAverage.toString())))
         onView(withId(R.id.txtOverview)).check(matches(withText(dummyMovies[0].overview)))
     }
 
@@ -68,15 +91,49 @@ class HomeActivityTest {
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
         onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
-        onView(withId(R.id.txtTitle)).check(matches(withText(dummyTVShows[0].title)))
-        onView(withId(R.id.txtCast)).check(matches(withText(dummyTVShows[0].casters)))
-        onView(withId(R.id.txtCategory)).check(matches(withText(dummyTVShows[0].category)))
-        onView(withId(R.id.txtReleasedDate)).check(matches(withText(dummyTVShows[0].releaseDate)))
-        onView(withId(R.id.txtCreator)).check(matches(withText(dummyTVShows[0].creator)))
-        onView(withId(R.id.txtStatus)).check(matches(withText(dummyTVShows[0].status)))
-        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyTVShows[0].language)))
-        onView(withId(R.id.txtTime)).check(matches(withText(dummyTVShows[0].time)))
+        onView(withId(R.id.txtTitle)).check(matches(withText(dummyTVShows[0].name)))
+        onView(withId(R.id.txtCategory)).check(matches(withText(getTVShowGenreText(dummyTVShows[0].genreIds))))
+        onView(withId(R.id.txtReleasedDate)).check(
+            matches(
+                withText(
+                    UtilsHelper.changeDateFormat(
+                        dummyTVShows[0].firstAirDate
+                    )
+                )
+            )
+        )
+        onView(withId(R.id.txtPopularity)).check(matches(withText(dummyTVShows[0].popularity.toString())))
+        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyTVShows[0].originalLanguage)))
+        onView(withId(R.id.txtRating)).check(matches(withText(dummyTVShows[0].voteAverage.toString())))
         onView(withId(R.id.txtOverview)).check(matches(withText(dummyTVShows[0].overview)))
+    }
+
+    private fun getTVShowGenreText(genreIds: List<Int>?): String {
+        val genres = DataDummy.generateDummyTVShowGenres()
+        var genre = ""
+        genreIds?.forEach { genreId ->
+            for (item in genres) {
+                if (item.id == genreId) {
+                    genre += item.name + " "
+                }
+            }
+        }
+
+        return genre
+    }
+
+    private fun getMovieGenreText(genreIds: List<Int>?): String {
+        val genres = DataDummy.generateDummyMovieGenres()
+        var genre = ""
+        genreIds?.forEach { genreId ->
+            for (item in genres) {
+                if (item.id == genreId) {
+                    genre += item.name + " "
+                }
+            }
+        }
+
+        return genre
     }
 
 

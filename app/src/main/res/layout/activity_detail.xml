@@ -55,12 +55,12 @@
             app:layout_constraintTop_toBottomOf="@id/img" />
 
         <TextView
-            android:id="@+id/txt_status"
+            android:id="@+id/txt_popularity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="@string/status"
+            android:text="@string/popularity"
             android:textColor="?attr/colorSecondaryVariant"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/line_left"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img" />
 
         <TextView
-            android:id="@+id/txtStatus"
+            android:id="@+id/txtPopularity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -76,16 +76,16 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/line_left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_status"
-            tools:text="Released" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_popularity"
+            tools:text="3343.123" />
 
         <TextView
-            android:id="@+id/txt_time"
+            android:id="@+id/txt_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="@string/time"
+            android:text="@string/rating"
             android:textColor="?attr/colorSecondaryVariant"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/line_right"
@@ -93,7 +93,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img" />
 
         <TextView
-            android:id="@+id/txtTime"
+            android:id="@+id/txtRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -101,8 +101,8 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/line_right"
             app:layout_constraintStart_toStartOf="@id/line_left"
-            app:layout_constraintTop_toBottomOf="@+id/txt_status"
-            tools:text="2 h 29 m" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_popularity"
+            tools:text="4.2" />
 
         <TextView
             android:id="@+id/txt_language"
@@ -126,7 +126,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/line_right"
-            app:layout_constraintTop_toBottomOf="@+id/txt_status"
+            app:layout_constraintTop_toBottomOf="@+id/txt_popularity"
             tools:text="English" />
 
         <androidx.cardview.widget.CardView
@@ -147,7 +147,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/poster_image"
                 android:scaleType="fitXY"
-                tools:background="@drawable/poster_aquaman" />
+                tools:src="@tools:sample/avatars" />
 
         </androidx.cardview.widget.CardView>
 
@@ -184,22 +184,6 @@
             tools:text="Category" />
 
         <TextView
-            android:id="@+id/txtCreator"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:maxLines="5"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/img"
-            app:layout_constraintTop_toBottomOf="@+id/txtReleasedDate"
-            tools:text="Creator" />
-
-        <TextView
             android:id="@+id/txtReleasedDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -225,7 +209,7 @@
             android:textColor="?attr/colorSecondaryVariant"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtStatus" />
+            app:layout_constraintTop_toBottomOf="@+id/txtPopularity" />
 
         <TextView
             android:id="@+id/txtOverview"
@@ -238,30 +222,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_overview"
             tools:text="@tools:sample/lorem/random" />
-
-        <TextView
-            android:id="@+id/txt_cast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="@string/cast"
-            android:textColor="?attr/colorSecondaryVariant"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtOverview" />
-
-        <TextView
-            android:id="@+id/txtCast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:lineSpacingExtra="4dp"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_cast"
-            tools:text="@tools:sample/lorem" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,4 +1,4 @@
-package com.mfathurz.moviecatalogue.db.remote.model
+package com.mfathurz.moviecatalogue.data.remote.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -32,7 +32,7 @@ data class TVResultsItem(
     val originalLanguage: String,
 
     @field:SerializedName("genre_ids")
-    val genreIds: List<Int>,
+    val genreIds: List<Int>?,
 
     @field:SerializedName("poster_path")
     val posterPath: String,

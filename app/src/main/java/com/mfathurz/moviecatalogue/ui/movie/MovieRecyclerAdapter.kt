@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.db.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.util.Constants
+import com.mfathurz.moviecatalogue.util.UtilsHelper
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class MovieRecyclerAdapter :
@@ -18,9 +20,10 @@ class MovieRecyclerAdapter :
         fun bind(item: MovieResultsItem) {
             with(itemView) {
                 item_txt_title.text = item.title
-//                item_txt_category.text = item.category
-//                item_txt_status.text = movieEntity.status
-                item_img_poster.load(item.posterPath) {
+                item_txt_date.text = UtilsHelper.changeDateFormat(item.releaseDate)
+                item_txt_overview.text = item.overview
+
+                item_img_poster.load(Constants.POSTER_PATH_BASE_URL + item.posterPath) {
                     crossfade(true)
                     placeholder(R.drawable.image_placeholder)
                     error(R.drawable.ic_broken_image)
