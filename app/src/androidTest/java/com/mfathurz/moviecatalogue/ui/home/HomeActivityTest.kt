@@ -10,26 +10,34 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.mfathurz.moviecatalogue.R
+import com.mfathurz.moviecatalogue.data.remote.api.ApiConfig
+import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
 import com.mfathurz.moviecatalogue.db.DataDummy
 import com.mfathurz.moviecatalogue.util.EspressoIdlingResource
 import com.mfathurz.moviecatalogue.util.UtilsHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class HomeActivityTest {
-    private var dummyMovies = DataDummy.generateDummyMovies()
-    private var dummyTVShows = DataDummy.generateDummyTVShows()
+    private var dummyMovies:ArrayList<MovieResultsItem>? = null
+    private var dummyTVShows :ArrayList<TVResultsItem>? = null
 
     @get:Rule
     val activityRule = ActivityScenarioRule(HomeActivity::class.java)
-
 
     @Before
     fun setUp() {
         IdlingRegistry.getInstance()
             .register(EspressoIdlingResource.getEspressoTestIdlingResource())
+        dummyMovies = getMovies()
+        dummyTVShows = getTVShows()
     }
 
     @After
@@ -43,7 +51,7 @@ class HomeActivityTest {
         onView(withId(R.id.rvMovies)).check(matches(isDisplayed()))
         onView(withId(R.id.rvMovies)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyMovies.size
+                dummyMovies!!.size
             )
         )
     }
@@ -52,24 +60,24 @@ class HomeActivityTest {
     fun loadDataRecyclerMovie() {
         onView(withId(R.id.rvMovies)).check(matches(isDisplayed()))
         onView(withId(R.id.rvMovies)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click())
         )
         onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
-        onView(withId(R.id.txtTitle)).check(matches(withText(dummyMovies[0].title)))
-        onView(withId(R.id.txtCategory)).check(matches(withText(getMovieGenreText(dummyMovies[0].genreIds))))
+        onView(withId(R.id.txtTitle)).check(matches(withText(dummyMovies!![1].title)))
+        onView(withId(R.id.txtCategory)).check(matches(withText(getMovieGenreText(dummyMovies!![1].genreIds))))
         onView(withId(R.id.txtReleasedDate)).check(
             matches(
                 withText(
                     UtilsHelper.changeDateFormat(
-                        dummyMovies[0].releaseDate
+                        dummyMovies!![1].releaseDate
                     )
                 )
             )
         )
-        onView(withId(R.id.txtPopularity)).check(matches(withText(dummyMovies[0].popularity.toString())))
-        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyMovies[0].originalLanguage)))
-        onView(withId(R.id.txtRating)).check(matches(withText(dummyMovies[0].voteAverage.toString())))
-        onView(withId(R.id.txtOverview)).check(matches(withText(dummyMovies[0].overview)))
+        onView(withId(R.id.txtPopularity)).check(matches(withText(dummyMovies!![1].popularity.toString())))
+        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyMovies!![1].originalLanguage)))
+        onView(withId(R.id.txtRating)).check(matches(withText(dummyMovies!![1].voteAverage.toString())))
+        onView(withId(R.id.txtOverview)).check(matches(withText(dummyMovies!![1].overview)))
     }
 
     @Test
@@ -78,7 +86,7 @@ class HomeActivityTest {
         onView(withId(R.id.rvTVShow)).check(matches(isDisplayed()))
         onView(withId(R.id.rvTVShow)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyTVShows.size
+                dummyTVShows!!.size
             )
         )
     }
@@ -91,21 +99,21 @@ class HomeActivityTest {
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
         onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
-        onView(withId(R.id.txtTitle)).check(matches(withText(dummyTVShows[0].name)))
-        onView(withId(R.id.txtCategory)).check(matches(withText(getTVShowGenreText(dummyTVShows[0].genreIds))))
+        onView(withId(R.id.txtTitle)).check(matches(withText(dummyTVShows!![0].name)))
+        onView(withId(R.id.txtCategory)).check(matches(withText(getTVShowGenreText(dummyTVShows!![0].genreIds))))
         onView(withId(R.id.txtReleasedDate)).check(
             matches(
                 withText(
                     UtilsHelper.changeDateFormat(
-                        dummyTVShows[0].firstAirDate
+                        dummyTVShows!![0].firstAirDate
                     )
                 )
             )
         )
-        onView(withId(R.id.txtPopularity)).check(matches(withText(dummyTVShows[0].popularity.toString())))
-        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyTVShows[0].originalLanguage)))
-        onView(withId(R.id.txtRating)).check(matches(withText(dummyTVShows[0].voteAverage.toString())))
-        onView(withId(R.id.txtOverview)).check(matches(withText(dummyTVShows[0].overview)))
+        onView(withId(R.id.txtPopularity)).check(matches(withText(dummyTVShows!![0].popularity.toString())))
+        onView(withId(R.id.txtLanguage)).check(matches(withText(dummyTVShows!![0].originalLanguage)))
+        onView(withId(R.id.txtRating)).check(matches(withText(dummyTVShows!![0].voteAverage.toString())))
+        onView(withId(R.id.txtOverview)).check(matches(withText(dummyTVShows!![0].overview)))
     }
 
     private fun getTVShowGenreText(genreIds: List<Int>?): String {
@@ -136,5 +144,33 @@ class HomeActivityTest {
         return genre
     }
 
+    private fun getMovies(): ArrayList<MovieResultsItem> {
+        val listMovies = ArrayList<MovieResultsItem>()
+        CoroutineScope(IO).launch {
+            val response = async {
+                ApiConfig.getApiService().queryPopularMovies().body()
+            }
 
+            val data = response.await()
+            data?.let {
+                listMovies.addAll(it.results)
+            }
+        }
+        return listMovies
+    }
+
+    private fun getTVShows(): ArrayList<TVResultsItem> {
+        val listMovies = ArrayList<TVResultsItem>()
+        CoroutineScope(IO).launch {
+            val response = async {
+                ApiConfig.getApiService().queryPopularTVShows().body()
+            }
+
+            val data = response.await()
+            data?.let {
+                listMovies.addAll(it.results)
+            }
+        }
+        return listMovies
+    }
 }
