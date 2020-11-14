@@ -34,7 +34,7 @@ class MovieRepository(private val genreDataSource: GenreDataSource) : GenreSourc
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return null
+        return emptyList()
     }
 
     suspend fun getPopularTVShows(): List<TVResultsItem>? {
@@ -51,7 +51,7 @@ class MovieRepository(private val genreDataSource: GenreDataSource) : GenreSourc
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return null
+        return emptyList()
     }
 
     override fun getMovieGenres(): List<GenreItem> = genreDataSource.getAllMovieGenres()

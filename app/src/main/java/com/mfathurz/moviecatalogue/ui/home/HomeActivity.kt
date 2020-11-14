@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mfathurz.moviecatalogue.R
+import com.mfathurz.moviecatalogue.ui.favorite.FavoriteActivity
 import com.mfathurz.moviecatalogue.ui.home.HomeViewPagerAdapter.Companion.MOVIE_FRAGMENT
 import com.mfathurz.moviecatalogue.ui.home.HomeViewPagerAdapter.Companion.TV_SHOW_FRAGMENT
 import kotlinx.android.synthetic.main.activity_home.*
@@ -39,6 +40,11 @@ class HomeActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.nav_setting -> {
                 val intent = Intent(Settings.ACTION_SETTINGS)
+                startActivity(intent)
+                true
+            }
+            R.id.action_favorite -> {
+                val intent = Intent(this@HomeActivity, FavoriteActivity::class.java)
                 startActivity(intent)
                 true
             }

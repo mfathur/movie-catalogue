@@ -15,4 +15,7 @@
     <string name="share_tv_show_message">\"let\'s watch %s\"</string>
     <string name="share_movie_title">Share this movie now</string>
     <string name="share_movie_message">\"let\'s watch %s\"</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite">Favorite</string>
+    <string name="empty_favorite_movie">You have no favorite movie</string>
 </resources>
