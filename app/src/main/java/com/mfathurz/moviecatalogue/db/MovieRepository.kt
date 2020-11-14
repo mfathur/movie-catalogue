@@ -8,15 +8,21 @@ import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
 import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
 import com.mfathurz.moviecatalogue.util.EspressoIdlingResource
 
-class MovieRepository(private val genreDataSource: GenreDataSource) : GenreSource {
+class MovieRepository(
+    private val genreDataSource: GenreDataSource,
+    private val localDataSource: LocalDataSource
+) : GenreSource {
 
     companion object {
         @Volatile
         private var instance: MovieRepository? = null
 
-        fun getInstance(genreDataSource: GenreDataSource): MovieRepository =
+        fun getInstance(
+            genreDataSource: GenreDataSource,
+            localDataSource: LocalDataSource
+        ): MovieRepository =
             instance ?: synchronized(this) {
-                instance ?: MovieRepository(genreDataSource)
+                instance ?: MovieRepository(genreDataSource, localDataSource)
             }
     }
 
