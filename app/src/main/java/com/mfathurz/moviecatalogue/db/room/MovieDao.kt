@@ -14,10 +14,10 @@ interface MovieDao {
     suspend fun insertFavoriteTVShow(tvShow: TVShowEntity)
 
     @Query("SELECT * FROM movie")
-    fun queryAllFavoriteMovies(): Flow<List<MovieEntity>>
+    suspend fun queryAllFavoriteMovies(): List<MovieEntity>
 
     @Query("SELECT * FROM tv_show")
-    fun queryAllFavoriteTVShows(): Flow<List<TVShowEntity>>
+    suspend fun queryAllFavoriteTVShows(): List<TVShowEntity>
 
     @Delete
     suspend fun deleteFavoriteMovie(movie: MovieEntity)

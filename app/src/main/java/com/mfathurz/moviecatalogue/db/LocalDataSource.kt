@@ -21,9 +21,9 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
 
     suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) = movieDao.insertFavoriteTVShow(tvShow)
 
-    fun queryAllFavoriteTVShows(): Flow<List<TVShowEntity>> = movieDao.queryAllFavoriteTVShows()
+    suspend fun queryAllFavoriteTVShows(): List<TVShowEntity> = movieDao.queryAllFavoriteTVShows()
 
-    fun queryAllFavoriteMovies(): Flow<List<MovieEntity>> = movieDao.queryAllFavoriteMovies()
+    suspend fun queryAllFavoriteMovies(): List<MovieEntity> = movieDao.queryAllFavoriteMovies()
 
     suspend fun deleteFavoriteMovie(movie: MovieEntity) = movieDao.deleteFavoriteMovie(movie)
 

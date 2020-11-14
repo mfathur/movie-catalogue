@@ -88,4 +88,7 @@ dependencies {
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
 
+    def paging_version = "3.0.0-alpha09"
+
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 }

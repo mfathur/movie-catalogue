@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 
 class FavoriteMovieFragment : Fragment() {
 
@@ -25,6 +27,13 @@ class FavoriteMovieFragment : Fragment() {
 
         val factory = ViewModelFactory.getInstance(requireActivity())
         viewModel = ViewModelProvider(this,factory)[FavoriteMovieViewModel::class.java]
+
+        val favoriteMovieAdapter = FavoriteMovieAdapter(requireActivity())
+
+        rvFavoriteMovie.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = favoriteMovieAdapter
+        }
     }
 
 }
