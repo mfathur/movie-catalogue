@@ -1,10 +1,10 @@
 package com.mfathurz.moviecatalogue.ui.favorite.movie
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
@@ -26,7 +26,7 @@ class FavoriteMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this,factory)[FavoriteMovieViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[FavoriteMovieViewModel::class.java]
 
         val favoriteMovieAdapter = FavoriteMovieAdapter(requireActivity())
 
@@ -34,6 +34,15 @@ class FavoriteMovieFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = favoriteMovieAdapter
         }
+
+        emptyIndicator.visibility = View.VISIBLE
+
+        viewModel.favoriteMovies.observe(viewLifecycleOwner, { list ->
+            if (list != null) {
+                favoriteMovieAdapter.submitList(list)
+                emptyIndicator.visibility = View.GONE
+            }
+        })
     }
 
 }

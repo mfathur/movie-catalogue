@@ -1,5 +1,11 @@
 package com.mfathurz.moviecatalogue.db
 
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.mfathurz.moviecatalogue.data.local.LocalDataSource
+import com.mfathurz.moviecatalogue.data.local.room.entity.MovieEntity
+import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
 import com.mfathurz.moviecatalogue.data.remote.GenreDataSource
 import com.mfathurz.moviecatalogue.data.remote.GenreSource
 import com.mfathurz.moviecatalogue.data.remote.api.ApiConfig
@@ -58,6 +64,54 @@ class MovieRepository(
             e.printStackTrace()
         }
         return emptyList()
+    }
+
+    fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShowEntity>> {
+
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(6)
+            .setPageSize(5)
+            .build()
+
+        return LivePagedListBuilder(
+            localDataSource.queryAllDataSourceFavoriteTVShows(),
+            config
+        ).build()
+    }
+
+
+    fun getPagedFavoriteMovies(): LiveData<PagedList<MovieEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(6)
+            .setPageSize(5)
+            .build()
+
+        return LivePagedListBuilder(
+            localDataSource.queryAllDataSourceFavoriteMovies(),
+            config
+        ).build()
+    }
+
+    fun getAllFavoriteMovies(): List<MovieEntity> = localDataSource.queryAllFavoriteMovies()
+
+    fun getAllFavoriteTVShow(): List<TVShowEntity> = localDataSource.queryAllFavoriteTVShow()
+
+    suspend fun insertFavoriteMovie(movie: MovieEntity) {
+        localDataSource.insertFavoriteMovie(movie)
+    }
+
+    suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) {
+        localDataSource.insertFavoriteTVShow(tvShow)
+    }
+
+    suspend fun deleteFavoriteMovie(movie: MovieEntity) {
+        localDataSource.deleteFavoriteMovie(movie)
+    }
+
+    suspend fun deleteFavoriteTVShow(tvShow: TVShowEntity) {
+        localDataSource.deleteFavoriteTVShow(tvShow)
     }
 
     override fun getMovieGenres(): List<GenreItem> = genreDataSource.getAllMovieGenres()

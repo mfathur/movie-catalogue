@@ -1,16 +1,19 @@
-package com.mfathurz.moviecatalogue.db.room.entity
+package com.mfathurz.moviecatalogue.data.local.room.entity
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "movie")
 data class MovieEntity(
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
-    var id: Int =0,
+    var id: Int = 0,
 
     @ColumnInfo(name = "overview")
     val overview: String,
@@ -44,4 +47,4 @@ data class MovieEntity(
 
     @ColumnInfo(name = "vote_count")
     val voteCount: Int
-)
+) : Parcelable

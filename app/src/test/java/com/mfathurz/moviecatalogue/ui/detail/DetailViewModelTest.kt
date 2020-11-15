@@ -1,10 +1,12 @@
 package com.mfathurz.moviecatalogue.ui.detail
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mfathurz.moviecatalogue.db.FakeDataDummy
 import com.mfathurz.moviecatalogue.db.MovieRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -16,9 +18,12 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class DetailViewModelTest {
 
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var viewModel: DetailViewModel
-    private var dummyMovie = FakeDataDummy.generateDummyMovies()[0]
-    private var dummyTVShow = FakeDataDummy.generateDummyTVShows()[0]
+    private var dummyMovie = FakeDataDummy.generateDummyFavoriteMovies()[0]
+    private var dummyTVShow = FakeDataDummy.generateDummyFavoriteTVShows()[0]
     private var dummyTVShowGenres = FakeDataDummy.generateDummyTVShowGenres()
     private var dummyMovieGenres = FakeDataDummy.generateDummyMovieGenres()
 

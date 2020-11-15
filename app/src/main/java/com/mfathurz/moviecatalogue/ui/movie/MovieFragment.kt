@@ -19,9 +19,6 @@ class MovieFragment : Fragment() {
 
     private lateinit var viewModel: MovieViewModel
 
-    companion object {
-        const val DATA_MOVIE = 1
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +53,7 @@ class MovieFragment : Fragment() {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.apply {
                     putExtra(DetailActivity.EXTRA_DATA, movieResultsItem)
-                    putExtra(DetailActivity.DATA_TYPE, DATA_MOVIE)
+                    putExtra(DetailActivity.DATA_TYPE, DetailActivity.DATA_MOVIE)
                 }
                 startActivity(intent)
             }

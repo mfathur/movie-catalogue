@@ -1,9 +1,9 @@
-package com.mfathurz.moviecatalogue.db
+package com.mfathurz.moviecatalogue.data.local
 
-import com.mfathurz.moviecatalogue.db.room.MovieDao
-import com.mfathurz.moviecatalogue.db.room.entity.MovieEntity
-import com.mfathurz.moviecatalogue.db.room.entity.TVShowEntity
-import kotlinx.coroutines.flow.Flow
+import androidx.paging.DataSource
+import com.mfathurz.moviecatalogue.data.local.room.MovieDao
+import com.mfathurz.moviecatalogue.data.local.room.entity.MovieEntity
+import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
 
 class LocalDataSource private constructor(private val movieDao: MovieDao) {
 
@@ -21,12 +21,18 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
 
     suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) = movieDao.insertFavoriteTVShow(tvShow)
 
-    suspend fun queryAllFavoriteTVShows(): List<TVShowEntity> = movieDao.queryAllFavoriteTVShows()
+    fun queryAllDataSourceFavoriteTVShows(): DataSource.Factory<Int, TVShowEntity> =
+        movieDao.queryAllDataSourceFavoriteTVShows()
 
-    suspend fun queryAllFavoriteMovies(): List<MovieEntity> = movieDao.queryAllFavoriteMovies()
+    fun queryAllDataSourceFavoriteMovies(): DataSource.Factory<Int, MovieEntity> =
+        movieDao.queryAllDataSourceFavoriteMovies()
 
     suspend fun deleteFavoriteMovie(movie: MovieEntity) = movieDao.deleteFavoriteMovie(movie)
 
     suspend fun deleteFavoriteTVShow(tvShow: TVShowEntity) = movieDao.deleteFavoriteTVShow(tvShow)
+
+    fun queryAllFavoriteMovies(): List<MovieEntity> = movieDao.queryAllFavoriteMovies()
+
+    fun queryAllFavoriteTVShow(): List<TVShowEntity> = movieDao.queryAllFavoriteTVShow()
 
 }

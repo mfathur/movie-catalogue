@@ -13,6 +13,19 @@
         android:padding="16dp">
 
         <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/content_desc_btn_back_to_home"
+            android:padding="4dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_not_favorite"
+            app:layout_constraintEnd_toStartOf="@id/btnShare"
+            android:tint="?attr/colorSecondaryVariant"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
             android:id="@+id/btnBackToHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

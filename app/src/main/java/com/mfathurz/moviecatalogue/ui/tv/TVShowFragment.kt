@@ -19,10 +19,6 @@ class TVShowFragment : Fragment() {
 
     private lateinit var viewModel: TVShowViewModel
 
-    companion object {
-        const val DATA_TV_SHOW = 2
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,7 +54,7 @@ class TVShowFragment : Fragment() {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.apply {
                     putExtra(DetailActivity.EXTRA_DATA, tvResultsItem)
-                    putExtra(DetailActivity.DATA_TYPE, DATA_TV_SHOW)
+                    putExtra(DetailActivity.DATA_TYPE, DetailActivity.DATA_TV_SHOW)
                 }
                 startActivity(intent)
             }

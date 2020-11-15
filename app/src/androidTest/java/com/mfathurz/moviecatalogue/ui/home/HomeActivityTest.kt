@@ -4,6 +4,7 @@ package com.mfathurz.moviecatalogue.ui.home
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -26,8 +27,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class HomeActivityTest {
-    private var dummyMovies:ArrayList<MovieResultsItem>? = null
-    private var dummyTVShows :ArrayList<TVResultsItem>? = null
+    private var dummyMovies: ArrayList<MovieResultsItem>? = null
+    private var dummyTVShows: ArrayList<TVResultsItem>? = null
 
     @get:Rule
     val activityRule = ActivityScenarioRule(HomeActivity::class.java)
@@ -114,6 +115,79 @@ class HomeActivityTest {
         onView(withId(R.id.txtLanguage)).check(matches(withText(dummyTVShows!![0].originalLanguage)))
         onView(withId(R.id.txtRating)).check(matches(withText(dummyTVShows!![0].voteAverage.toString())))
         onView(withId(R.id.txtOverview)).check(matches(withText(dummyTVShows!![0].overview)))
+    }
+
+    @Test
+    fun loadFavoriteMovies() {
+        onView(withId(R.id.rvMovies)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvMovies)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.btnFavorite)).check(matches(isDisplayed()))
+        onView(withId(R.id.btnFavorite)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+        onView(withId(R.id.action_favorite)).perform(click())
+        onView(withId(R.id.rvFavoriteMovie)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvFavoriteMovie)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtTitle)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtCategory)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtReleasedDate)).check(
+            matches(
+                isDisplayed()
+            )
+        )
+        onView(withId(R.id.txtPopularity)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtLanguage)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtRating)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtOverview)).check(matches(isDisplayed()))
+        onView(withId(R.id.btnFavorite)).check(matches(isDisplayed()))
+        onView(withId(R.id.btnFavorite)).perform(click())
+        onView(withText("DELETE")).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+
+    }
+
+    @Test
+    fun loadFavoriteTVShows() {
+        onView(withText("TV SHOW")).perform(click())
+        onView(withId(R.id.rvTVShow)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvTVShow)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+        )
+
+        onView(withId(R.id.btnFavorite)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+        onView(withId(R.id.action_favorite)).perform(click())
+        onView(withText("TV SHOW")).perform(click())
+        onView(withId(R.id.rvFavoriteTVShow)).check(matches(isDisplayed()))
+        onView(withId(R.id.rvFavoriteTVShow)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+        )
+        onView(withId(R.id.imgPoster)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtTitle)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtCategory)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtReleasedDate)).check(
+            matches(
+                isDisplayed()
+            )
+        )
+        onView(withId(R.id.txtPopularity)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtLanguage)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtRating)).check(matches(isDisplayed()))
+        onView(withId(R.id.txtOverview)).check(matches(isDisplayed()))
+        onView(withId(R.id.btnFavorite)).check(matches(isDisplayed()))
+        onView(withId(R.id.btnFavorite)).perform(click())
+        onView(withText("DELETE")).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
     }
 
     private fun getTVShowGenreText(genreIds: List<Int>?): String {

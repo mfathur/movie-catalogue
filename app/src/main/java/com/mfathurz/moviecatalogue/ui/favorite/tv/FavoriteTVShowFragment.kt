@@ -1,10 +1,10 @@
 package com.mfathurz.moviecatalogue.ui.favorite.tv
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
@@ -28,7 +28,7 @@ class FavoriteTVShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this,factory)[FavoriteTVShowViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[FavoriteTVShowViewModel::class.java]
 
         val favoriteTVShowAdapter = FavoriteTVShowAdapter(requireActivity())
 
@@ -36,6 +36,16 @@ class FavoriteTVShowFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = favoriteTVShowAdapter
         }
+
+        emptyIndicator.visibility = View.VISIBLE
+
+        viewModel.favoriteTVShows.observe(viewLifecycleOwner, { list ->
+            if (list != null) {
+                favoriteTVShowAdapter.submitList(list)
+                emptyIndicator.visibility = View.GONE
+            }
+
+        })
     }
 
 }

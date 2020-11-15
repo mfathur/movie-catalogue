@@ -1,6 +1,8 @@
 package com.mfathurz.moviecatalogue.util
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,4 +19,8 @@ object UtilsHelper {
             null
         }
     }
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

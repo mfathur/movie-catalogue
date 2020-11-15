@@ -1,5 +1,7 @@
 package com.mfathurz.moviecatalogue.db
 
+import com.mfathurz.moviecatalogue.data.local.room.entity.MovieEntity
+import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
 import com.mfathurz.moviecatalogue.data.remote.model.GenreItem
 import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
 import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
@@ -53,6 +55,51 @@ object FakeDataDummy {
             )
         )
         return listTVShows
+    }
+
+    fun generateDummyFavoriteMovies(): ArrayList<MovieEntity> {
+        val list = ArrayList<MovieEntity>()
+
+        list.add(
+            MovieEntity(
+                1,
+                "lorem",
+                "en",
+                "originalTitle",
+                "title",
+                listOf(1, 2, 3),
+                "posterPath",
+                "backdropPath",
+                "2020-16-01",
+                1.0,
+                1.0,
+                123
+            )
+        )
+        return list
+    }
+
+    fun generateDummyFavoriteTVShows(): ArrayList<TVShowEntity> {
+        val list = ArrayList<TVShowEntity>()
+
+        list.add(
+            TVShowEntity(
+                1,
+                "2020-17-12",
+                "overview",
+                "originalLanguage",
+                listOf(1, 2, 3),
+                "posterPath",
+                listOf("a", "b", "c"),
+                "backdropPath",
+                "originalName",
+                1.0,
+                1.0,
+                "tv Show",
+                123
+            )
+        )
+        return list
     }
 
     fun generateDummyMovieGenres(): ArrayList<GenreItem> {

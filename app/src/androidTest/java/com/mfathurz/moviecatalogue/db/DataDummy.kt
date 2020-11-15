@@ -1,8 +1,6 @@
 package com.mfathurz.moviecatalogue.db
 
 import com.mfathurz.moviecatalogue.data.remote.model.GenreItem
-import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
-import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
 
 object DataDummy {
     fun generateDummyMovieGenres(): ArrayList<GenreItem> {

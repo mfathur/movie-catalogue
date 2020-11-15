@@ -11,7 +11,9 @@ class RoomTypeConverter {
         val arr = genreIds.split(",")
 
         for (item in arr) {
-            genreIdList.add(Integer.parseInt(item))
+            if (item != "") {
+                genreIdList.add(Integer.parseInt(item))
+            }
         }
 
         return genreIdList

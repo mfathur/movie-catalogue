@@ -1,9 +1,14 @@
 package com.mfathurz.moviecatalogue.db
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.paging.DataSource
+import com.mfathurz.moviecatalogue.data.local.LocalDataSource
+import com.mfathurz.moviecatalogue.data.local.room.entity.MovieEntity
+import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
 import com.mfathurz.moviecatalogue.data.remote.GenreDataSource
 import com.mfathurz.moviecatalogue.data.remote.api.ApiService
 import com.mfathurz.moviecatalogue.util.CoroutineTestRule
+import com.mfathurz.moviecatalogue.util.PagedListUtil
 import com.mfathurz.moviecatalogue.util.Utils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -20,20 +25,24 @@ import java.net.HttpURLConnection
 
 @ExperimentalCoroutinesApi
 class MovieRepositoryTest {
-    private val genreDataSource = mock(GenreDataSource::class.java)
-    private val movieRepository = FakeMovieRepository(genreDataSource)
-
-    private val dummyMovieGenres = FakeDataDummy.generateDummyMovieGenres()
-    private val dummyTVShowGenres = FakeDataDummy.generateDummyTVShowGenres()
-
-    private lateinit var mockWebServer: MockWebServer
-    private lateinit var apiService: ApiService
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     var coroutineTestRule = CoroutineTestRule()
+
+    private val genreDataSource = mock(GenreDataSource::class.java)
+    private val localDataSource = mock(LocalDataSource::class.java)
+    private val movieRepository = FakeMovieRepository(genreDataSource, localDataSource)
+
+    private val dummyMovieGenres = FakeDataDummy.generateDummyMovieGenres()
+    private val dummyTVShowGenres = FakeDataDummy.generateDummyTVShowGenres()
+    private val dummyFavoriteMovies = FakeDataDummy.generateDummyFavoriteMovies()
+    private val dummyFavoriteTVShows = FakeDataDummy.generateDummyFavoriteTVShows()
+
+    private lateinit var mockWebServer: MockWebServer
+    private lateinit var apiService: ApiService
 
     @Before
     fun setUp() {
@@ -95,5 +104,47 @@ class MovieRepositoryTest {
         verify(genreDataSource).getAllTVShowGenres()
         assertNotNull(listTVShowGenre)
         assertEquals(1, listTVShowGenre.size)
+    }
+
+    @Test
+    fun getAllFavoriteMovies() {
+        `when`(localDataSource.queryAllFavoriteMovies()).thenReturn(dummyFavoriteMovies)
+        val favoriteMovies = movieRepository.getAllFavoriteMovies()
+        verify(localDataSource).queryAllFavoriteMovies()
+        assertNotNull(favoriteMovies)
+        assertEquals(1, favoriteMovies.size)
+    }
+
+    @Test
+    fun getAllFavoriteTVShows() {
+        `when`(localDataSource.queryAllFavoriteTVShow()).thenReturn(dummyFavoriteTVShows)
+        val favoriteTVShows = movieRepository.getAllFavoriteTVShow()
+        verify(localDataSource).queryAllFavoriteTVShow()
+        assertNotNull(favoriteTVShows)
+        assertEquals(1, favoriteTVShows.size)
+    }
+
+    @Test
+    fun getPagedFavoriteMovies() {
+        val dataSourceFactory =
+            mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
+        `when`(localDataSource.queryAllDataSourceFavoriteMovies()).thenReturn(dataSourceFactory)
+        movieRepository.getPagedFavoriteMovies()
+        val favoriteMovies = PagedListUtil.mockPagedList(dummyFavoriteMovies)
+        verify(localDataSource).queryAllDataSourceFavoriteMovies()
+        assertNotNull(favoriteMovies)
+        assertEquals(1, favoriteMovies.size)
+    }
+
+    @Test
+    fun getPagedFavoriteTVShows() {
+        val dataSourceFactory =
+            mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TVShowEntity>
+        `when`(localDataSource.queryAllDataSourceFavoriteTVShows()).thenReturn(dataSourceFactory)
+        movieRepository.getPagedFavoriteTVShows()
+        val favoriteTVShow = PagedListUtil.mockPagedList(dummyFavoriteTVShows)
+        verify(localDataSource).queryAllDataSourceFavoriteTVShows()
+        assertNotNull(favoriteTVShow)
+        assertEquals(1, favoriteTVShow.size)
     }
 }

@@ -1,12 +1,12 @@
-package com.mfathurz.moviecatalogue.db.room
+package com.mfathurz.moviecatalogue.data.local.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mfathurz.moviecatalogue.db.room.entity.MovieEntity
-import com.mfathurz.moviecatalogue.db.room.entity.TVShowEntity
+import com.mfathurz.moviecatalogue.data.local.room.entity.MovieEntity
+import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
 import com.mfathurz.moviecatalogue.util.RoomTypeConverter
 
 @Database(entities = [TVShowEntity::class, MovieEntity::class], version = 1, exportSchema = false)

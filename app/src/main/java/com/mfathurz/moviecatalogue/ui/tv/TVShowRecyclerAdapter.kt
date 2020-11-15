@@ -14,7 +14,7 @@ import com.mfathurz.moviecatalogue.util.UtilsHelper
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class TVShowRecyclerAdapter :
-    ListAdapter<TVResultsItem, TVShowRecyclerAdapter.TVShowViewHolder>(TVShowDiffUtilCallback()) {
+    ListAdapter<TVResultsItem, TVShowRecyclerAdapter.TVShowViewHolder>(TV_SHOW_DIFF_CALLBACK) {
 
     inner class TVShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: TVResultsItem) {
@@ -55,14 +55,19 @@ class TVShowRecyclerAdapter :
     fun setOnItemClickedCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
-}
 
-private class TVShowDiffUtilCallback : DiffUtil.ItemCallback<TVResultsItem>() {
-    override fun areItemsTheSame(oldItem: TVResultsItem, newItem: TVResultsItem): Boolean {
-        return oldItem.id == newItem.id
-    }
+    companion object {
+        private val TV_SHOW_DIFF_CALLBACK = object : DiffUtil.ItemCallback<TVResultsItem>() {
+            override fun areItemsTheSame(oldItem: TVResultsItem, newItem: TVResultsItem): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    override fun areContentsTheSame(oldItem: TVResultsItem, newItem: TVResultsItem): Boolean {
-        return oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: TVResultsItem,
+                newItem: TVResultsItem
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }
