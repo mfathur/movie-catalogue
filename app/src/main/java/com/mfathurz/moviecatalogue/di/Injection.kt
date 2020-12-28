@@ -1,20 +1,20 @@
 package com.mfathurz.moviecatalogue.di
 
 import android.content.Context
-import com.mfathurz.moviecatalogue.data.local.LocalDataSource
-import com.mfathurz.moviecatalogue.data.local.room.MovieDatabase
-import com.mfathurz.moviecatalogue.data.remote.GenreDataSource
-import com.mfathurz.moviecatalogue.db.MovieRepository
-import com.mfathurz.moviecatalogue.util.JsonHelper
+import com.mfathurz.moviecatalogue.core.data.source.local.LocalDataSource
+import com.mfathurz.moviecatalogue.core.data.source.local.room.MovieDatabase
+import com.mfathurz.moviecatalogue.core.data.source.remote.GenreDataSource
+import com.mfathurz.moviecatalogue.core.data.RepositoryImpl
+import com.mfathurz.moviecatalogue.core.utils.JsonHelper
 
 object Injection {
-    fun provideRepository(context: Context): MovieRepository {
+    fun provideRepository(context: Context): RepositoryImpl {
         val database = MovieDatabase.getInstance(context)
 
         val localDataSource = LocalDataSource.getInstance(database.movieDao())
 
         val genreDataSource = GenreDataSource.getInstance(JsonHelper(context))
 
-        return MovieRepository.getInstance(genreDataSource, localDataSource)
+        return RepositoryImpl.getInstance(genreDataSource, localDataSource)
     }
 }

@@ -30,6 +30,9 @@ buildscript {
 
     ext.retrofit_version = "2.9.0"
     ext.okhttp3_version = "4.9.0"
+
+    ext.rxjava_version = "2.2.19"
+    ext.rxandroid_version = "2.1.1"
     repositories {
         google()
         jcenter()

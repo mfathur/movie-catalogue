@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.viewmodel.ViewModelFactory
+import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 
 class FavoriteMovieFragment : Fragment() {

@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
+import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
-import com.mfathurz.moviecatalogue.util.Constants
-import com.mfathurz.moviecatalogue.util.UtilsHelper
+import com.mfathurz.moviecatalogue.core.utils.Constants
+import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class FavoriteTVShowAdapter(private val activity: Activity) :

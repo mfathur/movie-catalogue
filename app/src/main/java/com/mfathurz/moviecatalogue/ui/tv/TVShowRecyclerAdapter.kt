@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
-import com.mfathurz.moviecatalogue.util.Constants
-import com.mfathurz.moviecatalogue.util.UtilsHelper
+import com.mfathurz.moviecatalogue.core.data.source.remote.model.TVResultsItem
+import com.mfathurz.moviecatalogue.core.utils.Constants
+import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class TVShowRecyclerAdapter :

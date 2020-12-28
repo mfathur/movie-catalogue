@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mfathurz.moviecatalogue.data.local.room.entity.MovieEntity
-import com.mfathurz.moviecatalogue.data.local.room.entity.TVShowEntity
-import com.mfathurz.moviecatalogue.data.remote.model.GenreItem
-import com.mfathurz.moviecatalogue.data.remote.model.MovieResultsItem
-import com.mfathurz.moviecatalogue.data.remote.model.TVResultsItem
-import com.mfathurz.moviecatalogue.db.MovieRepository
+import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
+import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
+import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
+import com.mfathurz.moviecatalogue.core.data.source.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.core.data.source.remote.model.TVResultsItem
+import com.mfathurz.moviecatalogue.core.data.RepositoryImpl
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class DetailViewModel(private val movieRepository: RepositoryImpl) : ViewModel() {
 
     private var _movieEntity: MovieEntity? = null
     private var _tvShowEntity: TVShowEntity? = null
