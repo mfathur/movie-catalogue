@@ -8,14 +8,12 @@ import androidx.core.app.ShareCompat
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
-import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.MovieResultsItem
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.TVResultsItem
+import com.mfathurz.moviecatalogue.core.domain.model.Movie
+import com.mfathurz.moviecatalogue.core.domain.model.TVShow
+import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import com.mfathurz.moviecatalogue.core.utils.showToast
-import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -31,8 +29,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         const val DATA_MOVIE = 1
         const val DATA_TV_SHOW = 2
-        const val LOCAL_DATA_MOVIE = 3
-        const val LOCAL_DATA_TV_SHOW = 4
     }
 
     private lateinit var viewModel: DetailViewModel
@@ -54,27 +50,15 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             viewModel.setDataType(type)
             when (type) {
                 DATA_MOVIE -> {
-                    val data = intent.getParcelableExtra<MovieResultsItem>(EXTRA_DATA)
-                    viewModel.changeMovieResultItemToEntity(data as MovieResultsItem)
+                    val data = intent.getParcelableExtra<Movie>(EXTRA_DATA)
+                    viewModel.setMovieData(data as Movie)
                     viewModel.isAlreadyFavorite(DATA_MOVIE)
                 }
 
                 DATA_TV_SHOW -> {
-                    val data = intent.getParcelableExtra<TVResultsItem>(EXTRA_DATA)
-                    viewModel.changeTVShowResultItemToEntity(data as TVResultsItem)
+                    val data = intent.getParcelableExtra<TVShow>(EXTRA_DATA)
+                    viewModel.setTVShowData(data as TVShow)
                     viewModel.isAlreadyFavorite(DATA_TV_SHOW)
-                }
-
-                LOCAL_DATA_MOVIE -> {
-                    val data = intent.getParcelableExtra<MovieEntity>(EXTRA_DATA)
-                    viewModel.setFavorite(true)
-                    viewModel.setMovieData(data as MovieEntity)
-                }
-
-                LOCAL_DATA_TV_SHOW -> {
-                    val data = intent.getParcelableExtra<TVShowEntity>(EXTRA_DATA)
-                    viewModel.setFavorite(true)
-                    viewModel.setTVShowData(data as TVShowEntity)
                 }
                 else -> {
                 }
@@ -91,7 +75,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private fun populateData() {
         val type = viewModel.getDataType()
 
-        if (type == DATA_MOVIE || type == LOCAL_DATA_MOVIE) {
+        if (type == DATA_MOVIE) {
             val movie = viewModel.getMovieData()
             imgPoster.load(Constants.POSTER_PATH_BASE_URL + movie.posterPath) {
                 crossfade(true)
@@ -120,7 +104,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             txtOverview.text = movie.overview
             txtReleasedDate.text = UtilsHelper.changeDateFormat(movie.releaseDate)
 
-        } else if (type == LOCAL_DATA_TV_SHOW || type == DATA_TV_SHOW) {
+        } else if (type == DATA_TV_SHOW) {
             val tvShow = viewModel.getTVShowData()
             imgPoster.load(Constants.POSTER_PATH_BASE_URL + tvShow.posterPath) {
                 crossfade(true)
@@ -161,7 +145,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btnShare -> {
                 val mimeType = "text/plain"
                 when (viewModel.getDataType()) {
-                    DATA_MOVIE or LOCAL_DATA_MOVIE -> {
+                    DATA_MOVIE -> {
                         val movie = viewModel.getMovieData()
                         ShareCompat.IntentBuilder.from(this).apply {
                             setType(mimeType)
@@ -188,7 +172,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 if (isFavorite) {
                     showDeleteAlertDialog()
                 } else {
-                    if (type == DATA_MOVIE || type == LOCAL_DATA_MOVIE) {
+                    if (type == DATA_MOVIE) {
                         viewModel.insertFavoriteMovie(viewModel.getMovieData())
                         showToast(getString(R.string.add_to_favorite_succeed))
                     } else {
@@ -205,7 +189,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private fun showDeleteAlertDialog() {
         val type = viewModel.getDataType()
         val message: String =
-            if (type == DATA_MOVIE || type == LOCAL_DATA_MOVIE) {
+            if (type == DATA_MOVIE) {
                 getString(R.string.alert_delete_message, "Movie")
             } else {
                 getString(R.string.alert_delete_message, "TV Show")
@@ -215,7 +199,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             .setTitle(getString(R.string.alert_dialog_title))
             .setMessage(message)
             .setNegativeButton(getString(R.string.delete)) { _, _ ->
-                if (type == DATA_MOVIE || type == LOCAL_DATA_MOVIE) {
+                if (type == DATA_MOVIE) {
                     viewModel.deleteFavoriteMovie(viewModel.getMovieData())
                 } else {
                     viewModel.deleteFavoriteTVShow(viewModel.getTVShowData())

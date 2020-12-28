@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.MovieResultsItem
-import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
+import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
+import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 
@@ -49,10 +49,10 @@ class MovieFragment : Fragment() {
         }
 
         recyclerAdapter.setOnItemClickedCallback(object : MovieRecyclerAdapter.OnItemClickCallback {
-            override fun onItemClicked(movieResultsItem: MovieResultsItem) {
+            override fun onItemClicked(movie: Movie) {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.apply {
-                    putExtra(DetailActivity.EXTRA_DATA, movieResultsItem)
+                    putExtra(DetailActivity.EXTRA_DATA, movie)
                     putExtra(DetailActivity.DATA_TYPE, DetailActivity.DATA_MOVIE)
                 }
                 startActivity(intent)

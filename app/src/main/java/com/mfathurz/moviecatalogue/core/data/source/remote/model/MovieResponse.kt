@@ -4,23 +4,23 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-data class MovieResponse(
+data class ListMovieResponse(
 
-    @field:SerializedName("page")
+	@field:SerializedName("page")
 	val page: Int,
 
-    @field:SerializedName("total_pages")
+	@field:SerializedName("total_pages")
 	val totalPages: Int,
 
-    @field:SerializedName("results")
-	val results: List<MovieResultsItem>,
+	@field:SerializedName("results")
+	val results: List<MovieResponse>,
 
-    @field:SerializedName("total_results")
+	@field:SerializedName("total_results")
 	val totalResults: Int
 )
 
 @Parcelize
-data class MovieResultsItem(
+data class MovieResponse(
 
 	@field:SerializedName("overview")
 	val overview: String,

@@ -11,18 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
-import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
+import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
+import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class FavoriteMovieAdapter(private val activity: Activity) :
-    PagedListAdapter<MovieEntity, FavoriteMovieAdapter.FavoriteMovieViewHolder>(
+    PagedListAdapter<Movie, FavoriteMovieAdapter.FavoriteMovieViewHolder>(
         FAVORITE_MOVIE_COMPARATOR
     ) {
 
     inner class FavoriteMovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: MovieEntity) {
+        fun bind(item: Movie) {
             with(itemView) {
                 item_txt_title.text = item.title
                 item_txt_date.text = UtilsHelper.changeDateFormat(item.releaseDate)
@@ -37,7 +38,7 @@ class FavoriteMovieAdapter(private val activity: Activity) :
                 setOnClickListener {
                     val intent = Intent(activity, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_DATA, item)
-                    intent.putExtra(DetailActivity.DATA_TYPE, DetailActivity.LOCAL_DATA_MOVIE)
+                    intent.putExtra(DetailActivity.DATA_TYPE, DetailActivity.DATA_MOVIE)
                     activity.startActivity(intent)
                 }
             }
@@ -45,7 +46,7 @@ class FavoriteMovieAdapter(private val activity: Activity) :
     }
 
     override fun onBindViewHolder(holder: FavoriteMovieViewHolder, position: Int) {
-        holder.bind(getItem(position) as MovieEntity)
+        holder.bind(getItem(position) as Movie)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteMovieViewHolder {
@@ -55,12 +56,12 @@ class FavoriteMovieAdapter(private val activity: Activity) :
     }
 
     companion object {
-        private val FAVORITE_MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<MovieEntity>() {
-            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+        private val FAVORITE_MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem == newItem
             }
         }

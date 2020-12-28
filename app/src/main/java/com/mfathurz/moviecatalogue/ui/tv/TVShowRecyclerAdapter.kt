@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.TVResultsItem
+import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class TVShowRecyclerAdapter :
-    ListAdapter<TVResultsItem, TVShowRecyclerAdapter.TVShowViewHolder>(TV_SHOW_DIFF_CALLBACK) {
+    ListAdapter<TVShow, TVShowRecyclerAdapter.TVShowViewHolder>(TV_SHOW_DIFF_CALLBACK) {
 
     inner class TVShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: TVResultsItem) {
+        fun bind(item: TVShow) {
             with(itemView) {
                 item_txt_title.text = item.name
                 item_txt_date.text = UtilsHelper.changeDateFormat(item.firstAirDate)
@@ -47,7 +47,7 @@ class TVShowRecyclerAdapter :
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(tvResultsItem: TVResultsItem)
+        fun onItemClicked(tvShow: TVShow)
     }
 
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -57,14 +57,14 @@ class TVShowRecyclerAdapter :
     }
 
     companion object {
-        private val TV_SHOW_DIFF_CALLBACK = object : DiffUtil.ItemCallback<TVResultsItem>() {
-            override fun areItemsTheSame(oldItem: TVResultsItem, newItem: TVResultsItem): Boolean {
+        private val TV_SHOW_DIFF_CALLBACK = object : DiffUtil.ItemCallback<TVShow>() {
+            override fun areItemsTheSame(oldItem: TVShow, newItem: TVShow): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: TVResultsItem,
-                newItem: TVResultsItem
+                oldItem: TVShow,
+                newItem: TVShow
             ): Boolean {
                 return oldItem == newItem
             }

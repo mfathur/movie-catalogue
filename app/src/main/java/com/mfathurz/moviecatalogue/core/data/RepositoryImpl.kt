@@ -3,21 +3,21 @@ package com.mfathurz.moviecatalogue.core.data
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.data.source.local.LocalDataSource
-import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
-import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
 import com.mfathurz.moviecatalogue.core.data.source.remote.GenreDataSource
 import com.mfathurz.moviecatalogue.core.data.source.remote.GenreSource
 import com.mfathurz.moviecatalogue.core.data.source.remote.api.ApiConfig
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.MovieResultsItem
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.TVResultsItem
-import com.mfathurz.moviecatalogue.core.utils.EspressoIdlingResource
+import com.mfathurz.moviecatalogue.core.domain.model.Movie
+import com.mfathurz.moviecatalogue.core.domain.model.TVShow
+import com.mfathurz.moviecatalogue.core.domain.repository.IRepository
+import com.mfathurz.moviecatalogue.core.utils.DataMapper
 
 class RepositoryImpl(
     private val genreDataSource: GenreDataSource,
     private val localDataSource: LocalDataSource
-) : GenreSource {
+) : GenreSource, IRepository {
 
     companion object {
         @Volatile
@@ -32,15 +32,16 @@ class RepositoryImpl(
             }
     }
 
-    suspend fun getPopularMovies(): List<MovieResultsItem>? {
+    override suspend fun getPopularMovies(): List<Movie> {
         try {
-            EspressoIdlingResource.increment()
+//            EspressoIdlingResource.increment()
             val response = ApiConfig.getApiService().queryPopularMovies()
             if (response.isSuccessful) {
                 val data = response.body()
                 data?.let { movieResponse ->
-                    EspressoIdlingResource.decrement()
-                    return movieResponse.results
+//                    EspressoIdlingResource.decrement()
+
+                    return DataMapper.mapMovieResponsesToDomain(movieResponse.results)
                 }
             }
         } catch (e: Exception) {
@@ -49,15 +50,15 @@ class RepositoryImpl(
         return emptyList()
     }
 
-    suspend fun getPopularTVShows(): List<TVResultsItem>? {
+    override suspend fun getPopularTVShows(): List<TVShow> {
         try {
-            EspressoIdlingResource.increment()
+//            EspressoIdlingResource.increment()
             val response = ApiConfig.getApiService().queryPopularTVShows()
             if (response.isSuccessful) {
                 val data = response.body()
                 data?.let {
-                    EspressoIdlingResource.decrement()
-                    return data.results
+//                    EspressoIdlingResource.decrement()
+                    return DataMapper.mapTVShowResponsesToDomain(it.results)
                 }
             }
         } catch (e: Exception) {
@@ -66,8 +67,7 @@ class RepositoryImpl(
         return emptyList()
     }
 
-    fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShowEntity>> {
-
+    override fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShow>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(6)
@@ -75,13 +75,15 @@ class RepositoryImpl(
             .build()
 
         return LivePagedListBuilder(
-            localDataSource.queryAllDataSourceFavoriteTVShows(),
+            DataMapper.mapTVShowDataSourceFactoryToDomain(
+                localDataSource.queryAllDataSourceFavoriteTVShows()
+            ),
             config
         ).build()
     }
 
 
-    fun getPagedFavoriteMovies(): LiveData<PagedList<MovieEntity>> {
+    override fun getPagedFavoriteMovies(): LiveData<PagedList<Movie>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(6)
@@ -89,29 +91,37 @@ class RepositoryImpl(
             .build()
 
         return LivePagedListBuilder(
-            localDataSource.queryAllDataSourceFavoriteMovies(),
+            DataMapper.mapMovieDataSourceFactoryToDomain(
+                localDataSource.queryAllDataSourceFavoriteMovies()
+            ),
             config
         ).build()
     }
 
-    fun getAllFavoriteMovies(): List<MovieEntity> = localDataSource.queryAllFavoriteMovies()
+    override fun getAllFavoriteMovies(): List<Movie> =
+        DataMapper.mapMovieEntitiesToDomain(localDataSource.queryAllFavoriteMovies())
 
-    fun getAllFavoriteTVShow(): List<TVShowEntity> = localDataSource.queryAllFavoriteTVShow()
+    override fun getAllFavoriteTVShow(): List<TVShow> =
+        DataMapper.mapTVShowEntitiesToDomain(localDataSource.queryAllFavoriteTVShow())
 
-    suspend fun insertFavoriteMovie(movie: MovieEntity) {
-        localDataSource.insertFavoriteMovie(movie)
+    override suspend fun insertFavoriteMovie(movie: Movie) {
+        val movieEntity = DataMapper.mapMovieDomainToEntity(movie)
+        localDataSource.insertFavoriteMovie(movieEntity)
     }
 
-    suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) {
-        localDataSource.insertFavoriteTVShow(tvShow)
+    override suspend fun insertFavoriteTVShow(tvShow: TVShow) {
+        val tvShowEntity = DataMapper.mapTVShowDomainToEntity(tvShow)
+        localDataSource.insertFavoriteTVShow(tvShowEntity)
     }
 
-    suspend fun deleteFavoriteMovie(movie: MovieEntity) {
-        localDataSource.deleteFavoriteMovie(movie)
+    override suspend fun deleteFavoriteMovie(movie: Movie) {
+        val movieEntity = DataMapper.mapMovieDomainToEntity(movie)
+        localDataSource.deleteFavoriteMovie(movieEntity)
     }
 
-    suspend fun deleteFavoriteTVShow(tvShow: TVShowEntity) {
-        localDataSource.deleteFavoriteTVShow(tvShow)
+    override suspend fun deleteFavoriteTVShow(tvShow: TVShow) {
+        val tvShowEntity = DataMapper.mapTVShowDomainToEntity(tvShow)
+        localDataSource.deleteFavoriteTVShow(tvShowEntity)
     }
 
     override fun getMovieGenres(): List<GenreItem> = genreDataSource.getAllMovieGenres()

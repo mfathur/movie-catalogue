@@ -19,7 +19,7 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
 
     suspend fun insertFavoriteMovie(movie: MovieEntity) = movieDao.insertFavoriteMovie(movie)
 
-    suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) = movieDao.insertFavoriteTVShow(tvShow)
+    suspend fun deleteFavoriteMovie(movie: MovieEntity) = movieDao.deleteFavoriteMovie(movie)
 
     fun queryAllDataSourceFavoriteTVShows(): DataSource.Factory<Int, TVShowEntity> =
         movieDao.queryAllDataSourceFavoriteTVShows()
@@ -27,7 +27,7 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
     fun queryAllDataSourceFavoriteMovies(): DataSource.Factory<Int, MovieEntity> =
         movieDao.queryAllDataSourceFavoriteMovies()
 
-    suspend fun deleteFavoriteMovie(movie: MovieEntity) = movieDao.deleteFavoriteMovie(movie)
+    suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) = movieDao.insertFavoriteTVShow(tvShow)
 
     suspend fun deleteFavoriteTVShow(tvShow: TVShowEntity) = movieDao.deleteFavoriteTVShow(tvShow)
 

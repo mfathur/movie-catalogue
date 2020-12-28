@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.core.data.source.remote.model.MovieResultsItem
+import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class MovieRecyclerAdapter :
-    ListAdapter<MovieResultsItem, MovieRecyclerAdapter.MovieViewHolder>(MOVIE_DIFF_UTIL_CALLBACK) {
+    ListAdapter<Movie, MovieRecyclerAdapter.MovieViewHolder>(MOVIE_DIFF_UTIL_CALLBACK) {
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: MovieResultsItem) {
+        fun bind(item: Movie) {
             with(itemView) {
                 item_txt_title.text = item.title
                 item_txt_date.text = UtilsHelper.changeDateFormat(item.releaseDate)
@@ -46,7 +46,7 @@ class MovieRecyclerAdapter :
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(movieResultsItem: MovieResultsItem)
+        fun onItemClicked(movie: Movie)
     }
 
     private lateinit var onItemClickCallback: OnItemClickCallback
@@ -56,17 +56,17 @@ class MovieRecyclerAdapter :
     }
 
     companion object {
-        private val MOVIE_DIFF_UTIL_CALLBACK = object : DiffUtil.ItemCallback<MovieResultsItem>() {
+        private val MOVIE_DIFF_UTIL_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(
-                oldItem: MovieResultsItem,
-                newItem: MovieResultsItem
+                oldItem: Movie,
+                newItem: Movie
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: MovieResultsItem,
-                newItem: MovieResultsItem
+                oldItem: Movie,
+                newItem: Movie
             ): Boolean {
                 return oldItem == newItem
             }

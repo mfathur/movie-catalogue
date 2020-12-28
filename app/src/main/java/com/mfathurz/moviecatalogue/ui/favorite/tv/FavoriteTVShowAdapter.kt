@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
-import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
+import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
+import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class FavoriteTVShowAdapter(private val activity: Activity) :
-    PagedListAdapter<TVShowEntity, FavoriteTVShowAdapter.FavoriteTVShowViewHolder>(
+    PagedListAdapter<TVShow, FavoriteTVShowAdapter.FavoriteTVShowViewHolder>(
         TV_SHOW_COMPARATOR
     ) {
 
     inner class FavoriteTVShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(tvShow: TVShowEntity) {
+        fun bind(tvShow: TVShow) {
             with(itemView) {
                 item_txt_title.text = tvShow.name
                 item_txt_date.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
@@ -37,7 +37,7 @@ class FavoriteTVShowAdapter(private val activity: Activity) :
                 setOnClickListener {
                     val intent = Intent(activity, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_DATA, tvShow)
-                    intent.putExtra(DetailActivity.DATA_TYPE, DetailActivity.LOCAL_DATA_TV_SHOW)
+                    intent.putExtra(DetailActivity.DATA_TYPE, DetailActivity.DATA_TV_SHOW)
                     activity.startActivity(intent)
                 }
             }
@@ -45,7 +45,7 @@ class FavoriteTVShowAdapter(private val activity: Activity) :
     }
 
     override fun onBindViewHolder(holder: FavoriteTVShowViewHolder, position: Int) {
-        holder.bind(getItem(position) as TVShowEntity)
+        holder.bind(getItem(position) as TVShow)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteTVShowViewHolder {
@@ -55,15 +55,14 @@ class FavoriteTVShowAdapter(private val activity: Activity) :
     }
 
     companion object {
-        private val TV_SHOW_COMPARATOR = object : DiffUtil.ItemCallback<TVShowEntity>() {
-            override fun areItemsTheSame(oldItem: TVShowEntity, newItem: TVShowEntity): Boolean {
+        private val TV_SHOW_COMPARATOR = object : DiffUtil.ItemCallback<TVShow>() {
+            override fun areItemsTheSame(oldItem: TVShow, newItem: TVShow): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: TVShowEntity, newItem: TVShowEntity): Boolean {
+            override fun areContentsTheSame(oldItem: TVShow, newItem: TVShow): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }
