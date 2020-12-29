@@ -3,6 +3,7 @@ package com.mfathurz.moviecatalogue.core.data.source.remote.api
 import com.mfathurz.moviecatalogue.BuildConfig
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.ListMovieResponse
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.ListTVShowResponse
+import io.reactivex.Flowable
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -10,15 +11,15 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("movie/popular")
-    suspend fun queryPopularMovies(
+    fun queryPopularMovies(
         @Query("api_key")
         apiKey: String = BuildConfig.MOVIE_DB_API_KEY
-    ): Response<ListMovieResponse>
+    ): Flowable<ListMovieResponse>
 
     @GET("tv/popular")
-    suspend fun queryPopularTVShows(
+    fun queryPopularTVShows(
         @Query("api_key")
         apiKey: String = BuildConfig.MOVIE_DB_API_KEY
-    ): Response<ListTVShowResponse>
+    ): Flowable<ListTVShowResponse>
 
 }

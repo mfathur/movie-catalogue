@@ -1,35 +1,35 @@
 package com.mfathurz.moviecatalogue.core.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
+import io.reactivex.Flowable
 
 interface IRepository {
 
-    suspend fun getPopularMovies(): List<Movie>?
+    fun getPopularMovies(): Flowable<Resource<List<Movie>>>
 
-    suspend fun insertFavoriteMovie(movie: Movie)
+    fun insertFavoriteMovie(movie: Movie)
 
-    suspend fun deleteFavoriteMovie(movie: Movie)
+    fun deleteFavoriteMovie(movie: Movie)
 
-    fun getPagedFavoriteMovies(): LiveData<PagedList<Movie>>
+    fun getPagedFavoriteMovies(): Flowable<PagedList<Movie>>
 
     fun getAllFavoriteMovies(): List<Movie>
 
     fun getMovieGenres(): List<GenreItem>
 
-    suspend fun getPopularTVShows(): List<TVShow>?
+    fun getPopularTVShows(): Flowable<Resource<List<TVShow>>>
 
-    suspend fun insertFavoriteTVShow(tvShow: TVShow)
+    fun insertFavoriteTVShow(tvShow: TVShow)
 
-    suspend fun deleteFavoriteTVShow(tvShow: TVShow)
+    fun deleteFavoriteTVShow(tvShow: TVShow)
 
     fun getAllFavoriteTVShow(): List<TVShow>
 
-    fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShow>>
+    fun getPagedFavoriteTVShows(): Flowable<PagedList<TVShow>>
 
     fun getTVShowGenres(): List<GenreItem>
 

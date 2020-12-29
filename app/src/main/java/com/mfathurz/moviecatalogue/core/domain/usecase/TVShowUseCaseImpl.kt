@@ -1,22 +1,23 @@
 package com.mfathurz.moviecatalogue.core.domain.usecase
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.domain.repository.IRepository
+import io.reactivex.Flowable
 
-class TVShowInteractor(private val repository: IRepository) : TVShowUseCase {
+class TVShowUseCaseImpl(private val repository: IRepository) : TVShowUseCase {
 
-    override suspend fun getPopularTVShows(): List<TVShow>? {
+    override fun getPopularTVShows(): Flowable<Resource<List<TVShow>>> {
         return repository.getPopularTVShows()
     }
 
-    override suspend fun insertFavoriteTVShow(tvShow: TVShow) {
+    override fun insertFavoriteTVShow(tvShow: TVShow) {
         return repository.insertFavoriteTVShow(tvShow)
     }
 
-    override suspend fun deleteFavoriteTVShow(tvShow: TVShow) {
+    override fun deleteFavoriteTVShow(tvShow: TVShow) {
         return repository.deleteFavoriteTVShow(tvShow)
     }
 
@@ -24,7 +25,7 @@ class TVShowInteractor(private val repository: IRepository) : TVShowUseCase {
         return repository.getAllFavoriteTVShow()
     }
 
-    override fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShow>> {
+    override fun getPagedFavoriteTVShows(): Flowable<PagedList<TVShow>> {
         return repository.getPagedFavoriteTVShows()
     }
 

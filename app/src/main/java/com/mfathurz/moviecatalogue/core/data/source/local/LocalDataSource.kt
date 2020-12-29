@@ -1,9 +1,11 @@
 package com.mfathurz.moviecatalogue.core.data.source.local
 
 import androidx.paging.DataSource
-import com.mfathurz.moviecatalogue.core.data.source.local.room.MovieDao
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
+import com.mfathurz.moviecatalogue.core.data.source.local.room.MovieDao
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class LocalDataSource private constructor(private val movieDao: MovieDao) {
 
@@ -17,9 +19,13 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
             }
     }
 
-    suspend fun insertFavoriteMovie(movie: MovieEntity) = movieDao.insertFavoriteMovie(movie)
+    fun insertFavoriteMovie(movie: MovieEntity) =
+        movieDao.insertFavoriteMovie(movie).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe()!!
 
-    suspend fun deleteFavoriteMovie(movie: MovieEntity) = movieDao.deleteFavoriteMovie(movie)
+    fun deleteFavoriteMovie(movie: MovieEntity) =
+        movieDao.deleteFavoriteMovie(movie).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe()!!
 
     fun queryAllDataSourceFavoriteTVShows(): DataSource.Factory<Int, TVShowEntity> =
         movieDao.queryAllDataSourceFavoriteTVShows()
@@ -27,9 +33,13 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
     fun queryAllDataSourceFavoriteMovies(): DataSource.Factory<Int, MovieEntity> =
         movieDao.queryAllDataSourceFavoriteMovies()
 
-    suspend fun insertFavoriteTVShow(tvShow: TVShowEntity) = movieDao.insertFavoriteTVShow(tvShow)
+    fun insertFavoriteTVShow(tvShow: TVShowEntity) =
+        movieDao.insertFavoriteTVShow(tvShow).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe()!!
 
-    suspend fun deleteFavoriteTVShow(tvShow: TVShowEntity) = movieDao.deleteFavoriteTVShow(tvShow)
+    fun deleteFavoriteTVShow(tvShow: TVShowEntity) =
+        movieDao.deleteFavoriteTVShow(tvShow).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe()!!
 
     fun queryAllFavoriteMovies(): List<MovieEntity> = movieDao.queryAllFavoriteMovies()
 

@@ -5,7 +5,7 @@ import androidx.paging.DataSource
 import com.mfathurz.moviecatalogue.core.data.source.local.LocalDataSource
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
-import com.mfathurz.moviecatalogue.core.data.source.remote.GenreDataSource
+import com.mfathurz.moviecatalogue.core.data.source.remote.RemoteDataSource
 import com.mfathurz.moviecatalogue.core.data.source.remote.api.ApiService
 import com.mfathurz.moviecatalogue.util.CoroutineTestRule
 import com.mfathurz.moviecatalogue.util.PagedListUtil
@@ -32,7 +32,7 @@ class RepositoryImplTest {
     @get:Rule
     var coroutineTestRule = CoroutineTestRule()
 
-    private val genreDataSource = mock(GenreDataSource::class.java)
+    private val genreDataSource = mock(RemoteDataSource::class.java)
     private val localDataSource = mock(LocalDataSource::class.java)
     private val movieRepository = FakeMovieRepository(genreDataSource, localDataSource)
 

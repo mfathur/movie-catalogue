@@ -11,7 +11,6 @@ import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorite_tv_show.*
 
-
 class FavoriteTVShowFragment : Fragment() {
 
     private lateinit var viewModel: FavoriteTVShowViewModel
@@ -40,9 +39,11 @@ class FavoriteTVShowFragment : Fragment() {
         emptyIndicator.visibility = View.VISIBLE
 
         viewModel.favoriteTVShows.observe(viewLifecycleOwner, { list ->
-            if (list != null) {
-                favoriteTVShowAdapter.submitList(list)
+            favoriteTVShowAdapter.submitList(list)
+            if (list.isNotEmpty()) {
                 emptyIndicator.visibility = View.GONE
+            } else {
+                emptyIndicator.visibility = View.VISIBLE
             }
 
         })

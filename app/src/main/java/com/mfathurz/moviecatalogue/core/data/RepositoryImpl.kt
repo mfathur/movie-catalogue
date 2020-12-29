@@ -1,101 +1,138 @@
 package com.mfathurz.moviecatalogue.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.RxPagedListBuilder
 import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.data.source.local.LocalDataSource
-import com.mfathurz.moviecatalogue.core.data.source.remote.GenreDataSource
-import com.mfathurz.moviecatalogue.core.data.source.remote.GenreSource
-import com.mfathurz.moviecatalogue.core.data.source.remote.api.ApiConfig
+import com.mfathurz.moviecatalogue.core.data.source.remote.RemoteDataSource
+import com.mfathurz.moviecatalogue.core.data.source.remote.api.ApiResponse
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.domain.repository.IRepository
 import com.mfathurz.moviecatalogue.core.utils.DataMapper
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 class RepositoryImpl(
-    private val genreDataSource: GenreDataSource,
+    private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
-) : GenreSource, IRepository {
+) : IRepository {
 
     companion object {
         @Volatile
         private var instance: RepositoryImpl? = null
 
         fun getInstance(
-            genreDataSource: GenreDataSource,
+            remoteDataSource: RemoteDataSource,
             localDataSource: LocalDataSource
         ): RepositoryImpl =
             instance ?: synchronized(this) {
-                instance ?: RepositoryImpl(genreDataSource, localDataSource)
+                instance ?: RepositoryImpl(remoteDataSource, localDataSource)
             }
     }
 
-    override suspend fun getPopularMovies(): List<Movie> {
-        try {
-//            EspressoIdlingResource.increment()
-            val response = ApiConfig.getApiService().queryPopularMovies()
-            if (response.isSuccessful) {
-                val data = response.body()
-                data?.let { movieResponse ->
-//                    EspressoIdlingResource.decrement()
+    override fun getPopularMovies(): Flowable<Resource<List<Movie>>> {
+        val popularMovies = PublishSubject.create<Resource<List<Movie>>>()
+        val compositeDisposable = CompositeDisposable()
 
-                    return DataMapper.mapMovieResponsesToDomain(movieResponse.results)
+        popularMovies.onNext(Resource.Loading(emptyList()))
+
+        compositeDisposable.add(remoteDataSource.getPopularMovies()
+            .subscribeOn(Schedulers.computation())
+            .take(1)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                compositeDisposable.dispose()
+            }
+            .subscribe { response ->
+                when (response) {
+                    is ApiResponse.Success -> {
+                        val dataArray = DataMapper.mapMovieResponsesToDomain(response.data)
+                        popularMovies.onNext(Resource.Success(dataArray))
+                    }
+
+                    is ApiResponse.Error -> {
+                        popularMovies.onNext(Resource.Error(response.errorMessage))
+                    }
+
+                    is ApiResponse.Empty -> {
+                        popularMovies.onNext(Resource.Success(emptyList()))
+                    }
                 }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return emptyList()
+            })
+
+        return popularMovies.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    override suspend fun getPopularTVShows(): List<TVShow> {
-        try {
-//            EspressoIdlingResource.increment()
-            val response = ApiConfig.getApiService().queryPopularTVShows()
-            if (response.isSuccessful) {
-                val data = response.body()
-                data?.let {
-//                    EspressoIdlingResource.decrement()
-                    return DataMapper.mapTVShowResponsesToDomain(it.results)
+    override fun getPopularTVShows(): Flowable<Resource<List<TVShow>>> {
+        val popularTVShows = PublishSubject.create<Resource<List<TVShow>>>()
+
+        val compositeDisposable = CompositeDisposable()
+
+        popularTVShows.onNext(Resource.Loading(emptyList()))
+        compositeDisposable.add(
+            remoteDataSource.getPopularTVShows()
+                .subscribeOn(Schedulers.computation())
+                .take(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    compositeDisposable.dispose()
                 }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return emptyList()
+                .subscribe { response ->
+                    when (response) {
+                        is ApiResponse.Success -> {
+                            val dataArray = DataMapper.mapTVShowResponsesToDomain(response.data)
+                            popularTVShows.onNext(Resource.Success(dataArray))
+                        }
+
+                        is ApiResponse.Error -> {
+                            popularTVShows.onNext(Resource.Error(response.errorMessage))
+                        }
+
+                        is ApiResponse.Empty -> {
+                            popularTVShows.onNext(Resource.Success(emptyList()))
+                        }
+                    }
+                }
+        )
+
+        return popularTVShows.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    override fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShow>> {
+    override fun getPagedFavoriteTVShows(): Flowable<PagedList<TVShow>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(6)
             .setPageSize(5)
             .build()
 
-        return LivePagedListBuilder(
+        return RxPagedListBuilder(
             DataMapper.mapTVShowDataSourceFactoryToDomain(
                 localDataSource.queryAllDataSourceFavoriteTVShows()
             ),
             config
-        ).build()
+        ).buildFlowable(BackpressureStrategy.BUFFER)
     }
 
 
-    override fun getPagedFavoriteMovies(): LiveData<PagedList<Movie>> {
+    override fun getPagedFavoriteMovies(): Flowable<PagedList<Movie>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(6)
             .setPageSize(5)
             .build()
 
-        return LivePagedListBuilder(
+        return RxPagedListBuilder(
             DataMapper.mapMovieDataSourceFactoryToDomain(
                 localDataSource.queryAllDataSourceFavoriteMovies()
             ),
             config
-        ).build()
+        ).buildFlowable(BackpressureStrategy.BUFFER)
     }
 
     override fun getAllFavoriteMovies(): List<Movie> =
@@ -104,28 +141,28 @@ class RepositoryImpl(
     override fun getAllFavoriteTVShow(): List<TVShow> =
         DataMapper.mapTVShowEntitiesToDomain(localDataSource.queryAllFavoriteTVShow())
 
-    override suspend fun insertFavoriteMovie(movie: Movie) {
+    override fun insertFavoriteMovie(movie: Movie) {
         val movieEntity = DataMapper.mapMovieDomainToEntity(movie)
         localDataSource.insertFavoriteMovie(movieEntity)
     }
 
-    override suspend fun insertFavoriteTVShow(tvShow: TVShow) {
+    override fun insertFavoriteTVShow(tvShow: TVShow) {
         val tvShowEntity = DataMapper.mapTVShowDomainToEntity(tvShow)
         localDataSource.insertFavoriteTVShow(tvShowEntity)
     }
 
-    override suspend fun deleteFavoriteMovie(movie: Movie) {
+    override fun deleteFavoriteMovie(movie: Movie) {
         val movieEntity = DataMapper.mapMovieDomainToEntity(movie)
         localDataSource.deleteFavoriteMovie(movieEntity)
     }
 
-    override suspend fun deleteFavoriteTVShow(tvShow: TVShow) {
+    override fun deleteFavoriteTVShow(tvShow: TVShow) {
         val tvShowEntity = DataMapper.mapTVShowDomainToEntity(tvShow)
         localDataSource.deleteFavoriteTVShow(tvShowEntity)
     }
 
-    override fun getMovieGenres(): List<GenreItem> = genreDataSource.getAllMovieGenres()
+    override fun getMovieGenres(): List<GenreItem> = remoteDataSource.getAllMovieGenres()
 
-    override fun getTVShowGenres(): List<GenreItem> = genreDataSource.getAllTVShowGenres()
+    override fun getTVShowGenres(): List<GenreItem> = remoteDataSource.getAllTVShowGenres()
 
 }

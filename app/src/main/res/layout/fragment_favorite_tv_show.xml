@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/empty_favorite_movie"
+            android:text="@string/empty_favorite_tv_show"
             android:textSize="16sp" />
 
     </RelativeLayout>

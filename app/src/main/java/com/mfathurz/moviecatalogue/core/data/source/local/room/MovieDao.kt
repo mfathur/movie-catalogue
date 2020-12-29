@@ -4,14 +4,15 @@ import androidx.paging.DataSource
 import androidx.room.*
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.MovieEntity
 import com.mfathurz.moviecatalogue.core.data.source.local.entity.TVShowEntity
+import io.reactivex.Completable
 
 @Dao
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavoriteMovie(movie: MovieEntity)
+    fun insertFavoriteMovie(movie: MovieEntity): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavoriteTVShow(tvShow: TVShowEntity)
+    fun insertFavoriteTVShow(tvShow: TVShowEntity) : Completable
 
     @Query("SELECT * FROM movie ORDER BY popularity DESC")
     fun queryAllDataSourceFavoriteMovies(): DataSource.Factory<Int, MovieEntity>
@@ -20,10 +21,10 @@ interface MovieDao {
     fun queryAllDataSourceFavoriteTVShows(): DataSource.Factory<Int, TVShowEntity>
 
     @Delete
-    suspend fun deleteFavoriteMovie(movie: MovieEntity)
+    fun deleteFavoriteMovie(movie: MovieEntity): Completable
 
     @Delete
-    suspend fun deleteFavoriteTVShow(tvShow: TVShowEntity)
+    fun deleteFavoriteTVShow(tvShow: TVShowEntity): Completable
 
     @Query("SELECT * FROM movie ORDER BY popularity DESC")
     fun queryAllFavoriteMovies(): List<MovieEntity>

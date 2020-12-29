@@ -1,20 +1,21 @@
 package com.mfathurz.moviecatalogue.core.domain.usecase
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
+import io.reactivex.Flowable
 
 interface TVShowUseCase {
-    suspend fun getPopularTVShows(): List<TVShow>?
+    fun getPopularTVShows(): Flowable<Resource<List<TVShow>>>
 
-    suspend fun insertFavoriteTVShow(tvShow: TVShow)
+    fun insertFavoriteTVShow(tvShow: TVShow)
 
-    suspend fun deleteFavoriteTVShow(tvShow: TVShow)
+    fun deleteFavoriteTVShow(tvShow: TVShow)
 
     fun getAllFavoriteTVShow(): List<TVShow>
 
-    fun getPagedFavoriteTVShows(): LiveData<PagedList<TVShow>>
+    fun getPagedFavoriteTVShows(): Flowable<PagedList<TVShow>>
 
     fun getTVShowGenres(): List<GenreItem>
 }

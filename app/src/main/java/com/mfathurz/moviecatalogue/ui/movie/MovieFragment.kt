@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
+import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
@@ -19,12 +21,10 @@ class MovieFragment : Fragment() {
 
     private lateinit var viewModel: MovieViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
@@ -32,15 +32,24 @@ class MovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val factory = ViewModelFactory.getInstance(requireActivity())
         viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
-        viewModel.getPopularMovies()
 
-        viewModel.isLoading.observe(viewLifecycleOwner, { state ->
-            progressBar.visibility = if (state) View.VISIBLE else View.GONE
-        })
         val recyclerAdapter = MovieRecyclerAdapter()
 
         viewModel.popularMovies.observe(viewLifecycleOwner, { listMovies ->
-            recyclerAdapter.submitList(listMovies)
+            when (listMovies) {
+                is Resource.Loading -> {
+                    progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    progressBar.visibility = View.GONE
+                    recyclerAdapter.submitList(listMovies.data)
+                }
+                is Resource.Error -> {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), listMovies.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
         })
 
         rvMovies.apply {

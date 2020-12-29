@@ -21,6 +21,7 @@
     <string name="alert_delete_message">Delete this %s from favorite list</string>
     <string name="alert_dialog_title">Are you sure?</string>
     <string name="delete">Delete</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
     <string name="add_to_favorite_succeed">Added to your favorite list</string>
+    <string name="empty_favorite_tv_show">You have no favorite tv show</string>
 </resources>

@@ -1,26 +1,27 @@
 package com.mfathurz.moviecatalogue.core.domain.usecase
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.data.source.remote.model.GenreItem
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.domain.repository.IRepository
+import io.reactivex.Flowable
 
-class MovieInteractor(private val repository: IRepository) : MovieUseCase {
+class MovieUseCaseImpl(private val repository: IRepository) : MovieUseCase {
 
-    override suspend fun getPopularMovies(): List<Movie>? {
+    override fun getPopularMovies(): Flowable<Resource<List<Movie>>> {
         return repository.getPopularMovies()
     }
 
-    override suspend fun insertFavoriteMovie(movie: Movie) {
+    override fun insertFavoriteMovie(movie: Movie) {
         return repository.insertFavoriteMovie(movie)
     }
 
-    override suspend fun deleteFavoriteMovie(movie: Movie) {
+    override fun deleteFavoriteMovie(movie: Movie) {
         return repository.deleteFavoriteMovie(movie)
     }
 
-    override fun getPagedFavoriteMovies(): LiveData<PagedList<Movie>> {
+    override fun getPagedFavoriteMovies(): Flowable<PagedList<Movie>> {
         return repository.getPagedFavoriteMovies()
     }
 

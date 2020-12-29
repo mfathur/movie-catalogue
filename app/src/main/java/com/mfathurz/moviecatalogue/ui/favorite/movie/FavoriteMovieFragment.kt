@@ -37,12 +37,14 @@ class FavoriteMovieFragment : Fragment() {
 
         emptyIndicator.visibility = View.VISIBLE
 
-        viewModel.favoriteMovies.observe(viewLifecycleOwner, { list ->
-            if (list != null) {
-                favoriteMovieAdapter.submitList(list)
+        viewModel.favoriteMovies.observe(viewLifecycleOwner) { list ->
+            favoriteMovieAdapter.submitList(list)
+            if (list.isNotEmpty()) {
                 emptyIndicator.visibility = View.GONE
+            } else {
+                emptyIndicator.visibility = View.VISIBLE
             }
-        })
+        }
     }
 
 }
