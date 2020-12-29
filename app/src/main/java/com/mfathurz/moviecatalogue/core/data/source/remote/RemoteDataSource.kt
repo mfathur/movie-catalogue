@@ -18,16 +18,6 @@ class RemoteDataSource constructor(
     private val apiService: ApiService
 ) {
 
-//    companion object {
-//        @Volatile
-//        private var instance: RemoteDataSource? = null
-//
-//        fun getInstance(helper: JsonHelper, apiService: ApiService): RemoteDataSource =
-//            instance ?: synchronized(this) {
-//                instance ?: RemoteDataSource(helper, apiService)
-//            }
-//    }
-
     fun getAllMovieGenres(): List<GenreItem> = jsonHelper.loadMovieGenres()
 
     fun getAllTVShowGenres(): List<GenreItem> = jsonHelper.loadTVShowGenres()

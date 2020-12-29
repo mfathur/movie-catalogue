@@ -9,16 +9,6 @@ import io.reactivex.schedulers.Schedulers
 
 class LocalDataSource constructor(private val movieDao: MovieDao) {
 
-//    companion object {
-//        @Volatile
-//        private var instance: LocalDataSource? = null
-//
-//        fun getInstance(movieDao: MovieDao): LocalDataSource =
-//            instance ?: synchronized(this) {
-//                instance ?: LocalDataSource(movieDao)
-//            }
-//    }
-
     fun insertFavoriteMovie(movie: MovieEntity) =
         movieDao.insertFavoriteMovie(movie).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe()!!
