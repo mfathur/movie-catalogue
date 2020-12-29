@@ -24,7 +24,7 @@ abstract class MovieDatabase : RoomDatabase() {
                     context,
                     MovieDatabase::class.java,
                     "movie_tv_show.db"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
             }
     }
 }

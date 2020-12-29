@@ -13,19 +13,20 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
-class RemoteDataSource private constructor(
+class RemoteDataSource constructor(
     private val jsonHelper: JsonHelper,
     private val apiService: ApiService
 ) {
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
 
-        fun getInstance(helper: JsonHelper, apiService: ApiService): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource(helper, apiService)
-            }
-    }
+//    companion object {
+//        @Volatile
+//        private var instance: RemoteDataSource? = null
+//
+//        fun getInstance(helper: JsonHelper, apiService: ApiService): RemoteDataSource =
+//            instance ?: synchronized(this) {
+//                instance ?: RemoteDataSource(helper, apiService)
+//            }
+//    }
 
     fun getAllMovieGenres(): List<GenreItem> = jsonHelper.loadMovieGenres()
 

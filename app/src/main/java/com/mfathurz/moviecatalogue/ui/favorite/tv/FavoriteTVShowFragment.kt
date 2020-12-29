@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
-import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorite_tv_show.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteTVShowFragment : Fragment() {
 
-    private lateinit var viewModel: FavoriteTVShowViewModel
+    private val viewModel: FavoriteTVShowViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,9 +24,9 @@ class FavoriteTVShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[FavoriteTVShowViewModel::class.java]
+//
+//        val factory = ViewModelFactory.getInstance(requireActivity())
+//        viewModel = ViewModelProvider(this, factory)[FavoriteTVShowViewModel::class.java]
 
         val favoriteTVShowAdapter = FavoriteTVShowAdapter(requireActivity())
 

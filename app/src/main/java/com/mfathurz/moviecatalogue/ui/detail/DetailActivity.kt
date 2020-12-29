@@ -5,12 +5,10 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
-import androidx.lifecycle.ViewModelProvider
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
-import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import com.mfathurz.moviecatalogue.core.utils.showToast
@@ -20,6 +18,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -31,14 +30,14 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         const val DATA_TV_SHOW = 2
     }
 
-    private lateinit var viewModel: DetailViewModel
+    private val viewModel: DetailViewModel by viewModel()
     private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+//        val factory = ViewModelFactory.getInstance(this)
+//        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         btnBackToHome.setOnClickListener(this)
         btnShare.setOnClickListener(this)

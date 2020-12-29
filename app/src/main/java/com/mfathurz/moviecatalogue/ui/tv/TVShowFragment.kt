@@ -7,19 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.Resource
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
-import com.mfathurz.moviecatalogue.core.ui.ViewModelFactory
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_tv_show.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class TVShowFragment : Fragment() {
 
-    private lateinit var viewModel: TVShowViewModel
+    private val viewModel: TVShowViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +29,8 @@ class TVShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[TVShowViewModel::class.java]
+//        val factory = ViewModelFactory.getInstance(requireActivity())
+//        viewModel = ViewModelProvider(this, factory)[TVShowViewModel::class.java]
 
         val recyclerAdapter = TVShowRecyclerAdapter()
         progressBar.visibility = View.VISIBLE

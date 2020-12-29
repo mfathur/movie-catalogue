@@ -7,17 +7,17 @@ import com.mfathurz.moviecatalogue.core.data.source.local.room.MovieDao
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class LocalDataSource private constructor(private val movieDao: MovieDao) {
+class LocalDataSource constructor(private val movieDao: MovieDao) {
 
-    companion object {
-        @Volatile
-        private var instance: LocalDataSource? = null
-
-        fun getInstance(movieDao: MovieDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(movieDao)
-            }
-    }
+//    companion object {
+//        @Volatile
+//        private var instance: LocalDataSource? = null
+//
+//        fun getInstance(movieDao: MovieDao): LocalDataSource =
+//            instance ?: synchronized(this) {
+//                instance ?: LocalDataSource(movieDao)
+//            }
+//    }
 
     fun insertFavoriteMovie(movie: MovieEntity) =
         movieDao.insertFavoriteMovie(movie).subscribeOn(Schedulers.io())

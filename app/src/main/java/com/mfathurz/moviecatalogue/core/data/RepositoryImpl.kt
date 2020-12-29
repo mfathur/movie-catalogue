@@ -23,18 +23,18 @@ class RepositoryImpl(
     private val localDataSource: LocalDataSource
 ) : IRepository {
 
-    companion object {
-        @Volatile
-        private var instance: RepositoryImpl? = null
-
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource
-        ): RepositoryImpl =
-            instance ?: synchronized(this) {
-                instance ?: RepositoryImpl(remoteDataSource, localDataSource)
-            }
-    }
+//    companion object {
+//        @Volatile
+//        private var instance: RepositoryImpl? = null
+//
+//        fun getInstance(
+//            remoteDataSource: RemoteDataSource,
+//            localDataSource: LocalDataSource
+//        ): RepositoryImpl =
+//            instance ?: synchronized(this) {
+//                instance ?: RepositoryImpl(remoteDataSource, localDataSource)
+//            }
+//    }
 
     override fun getPopularMovies(): Flowable<Resource<List<Movie>>> {
         val popularMovies = PublishSubject.create<Resource<List<Movie>>>()
