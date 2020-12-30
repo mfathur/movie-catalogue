@@ -12,6 +12,7 @@ import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import com.mfathurz.moviecatalogue.core.utils.showToast
+import com.mfathurz.moviecatalogue.databinding.ActivityDetailBinding
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -32,16 +33,16 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private val viewModel: DetailViewModel by viewModel()
     private var isFavorite: Boolean = false
+    private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
-//        val factory = ViewModelFactory.getInstance(this)
-//        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+        setContentView(binding.root)
 
-        btnBackToHome.setOnClickListener(this)
-        btnShare.setOnClickListener(this)
-        btnFavorite.setOnClickListener(this)
+        binding.btnBackToHome.setOnClickListener(this)
+        binding.btnShare.setOnClickListener(this)
+        binding.btnFavorite.setOnClickListener(this)
 
         val bundle = intent.extras
         bundle?.let {
@@ -76,7 +77,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         if (type == DATA_MOVIE) {
             val movie = viewModel.getMovieData()
-            imgPoster.load(Constants.POSTER_PATH_BASE_URL + movie.posterPath) {
+            binding.imgPoster.load(Constants.POSTER_PATH_BASE_URL + movie.posterPath) {
                 crossfade(true)
                 placeholder(R.drawable.image_placeholder)
                 error(R.drawable.ic_broken_image)
@@ -92,20 +93,20 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 withContext(Main) {
-                    txtCategory.text = genre
+                    binding.txtCategory.text = genre
                 }
             }
 
-            txtTitle.text = movie.title
-            txtLanguage.text = movie.originalLanguage
-            txtPopularity.text = movie.popularity.toString()
-            txtRating.text = movie.voteAverage.toString()
-            txtOverview.text = movie.overview
-            txtReleasedDate.text = UtilsHelper.changeDateFormat(movie.releaseDate)
+            binding.txtTitle.text = movie.title
+            binding.txtLanguage.text = movie.originalLanguage
+            binding.txtPopularity.text = movie.popularity.toString()
+            binding.txtRating.text = movie.voteAverage.toString()
+            binding.txtOverview.text = movie.overview
+            binding.txtReleasedDate.text = UtilsHelper.changeDateFormat(movie.releaseDate)
 
         } else if (type == DATA_TV_SHOW) {
             val tvShow = viewModel.getTVShowData()
-            imgPoster.load(Constants.POSTER_PATH_BASE_URL + tvShow.posterPath) {
+            binding.imgPoster.load(Constants.POSTER_PATH_BASE_URL + tvShow.posterPath) {
                 crossfade(true)
                 placeholder(R.drawable.image_placeholder)
                 error(R.drawable.ic_broken_image)
@@ -121,27 +122,27 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 withContext(Main) {
-                    txtCategory.text = genre
+                    binding.txtCategory.text = genre
                 }
             }
 
-            txtTitle.text = tvShow.name
-            txtCategory.text = tvShow.genreIds.toString()
-            txtLanguage.text = tvShow.originalLanguage
-            txtPopularity.text = tvShow.popularity.toString()
-            txtRating.text = tvShow.voteAverage.toString()
-            txtOverview.text = tvShow.overview
-            txtReleasedDate.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
+            binding.txtTitle.text = tvShow.name
+            binding.txtCategory.text = tvShow.genreIds.toString()
+            binding.txtLanguage.text = tvShow.originalLanguage
+            binding.txtPopularity.text = tvShow.popularity.toString()
+            binding.txtRating.text = tvShow.voteAverage.toString()
+            binding.txtOverview.text = tvShow.overview
+            binding.txtReleasedDate.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
         }
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btnBackToHome -> {
+            R.id.btn_back_to_home -> {
                 onBackPressed()
             }
 
-            R.id.btnShare -> {
+            R.id.btn_share -> {
                 val mimeType = "text/plain"
                 when (viewModel.getDataType()) {
                     DATA_MOVIE -> {
@@ -166,7 +167,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
 
-            R.id.btnFavorite -> {
+            R.id.btn_favorite -> {
                 val type = viewModel.getDataType()
                 if (isFavorite) {
                     showDeleteAlertDialog()
@@ -215,9 +216,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setButtonFavoriteIcon(state: Boolean) {
         if (state) {
-            btnFavorite.setImageResource(R.drawable.ic_favorite)
+            binding.btnFavorite.setImageResource(R.drawable.ic_favorite)
         } else {
-            btnFavorite.setImageResource(R.drawable.ic_not_favorite)
+            binding.btnFavorite.setImageResource(R.drawable.ic_not_favorite)
         }
     }
 }

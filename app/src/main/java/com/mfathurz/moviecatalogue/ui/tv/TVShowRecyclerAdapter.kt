@@ -8,28 +8,29 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
+import com.mfathurz.moviecatalogue.core.databinding.ItemMovieTvShowRecyclerBinding
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
-import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
 
 class TVShowRecyclerAdapter :
     ListAdapter<TVShow, TVShowRecyclerAdapter.TVShowViewHolder>(TV_SHOW_DIFF_CALLBACK) {
 
     inner class TVShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemMovieTvShowRecyclerBinding.bind(itemView)
         fun bind(item: TVShow) {
-            with(itemView) {
-                item_txt_title.text = item.name
-                item_txt_date.text = UtilsHelper.changeDateFormat(item.firstAirDate)
-                item_txt_overview.text = item.overview
+            with(binding) {
+                itemTxtTitle.text = item.name
+                itemTxtDate.text = UtilsHelper.changeDateFormat(item.firstAirDate)
+                itemTxtOverview.text = item.overview
 
-                item_img_poster.load(Constants.POSTER_PATH_BASE_URL + item.posterPath) {
+                itemImgPoster.load(Constants.POSTER_PATH_BASE_URL + item.posterPath) {
                     placeholder(R.drawable.image_placeholder)
                     crossfade(true)
                     error(R.drawable.ic_broken_image)
                 }
 
-                setOnClickListener {
+                root.setOnClickListener {
                     onItemClickCallback.onItemClicked(item)
                 }
             }
@@ -38,7 +39,11 @@ class TVShowRecyclerAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_movie_tv_show_recycler, parent, false)
+            .inflate(
+                R.layout.item_movie_tv_show_recycler,
+                parent,
+                false
+            )
         return TVShowViewHolder(view)
     }
 

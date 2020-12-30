@@ -13,20 +13,20 @@
         android:padding="16dp">
 
         <ImageButton
-            android:id="@+id/btnFavorite"
+            android:id="@+id/btn_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/content_desc_btn_back_to_home"
             android:padding="4dp"
-            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_not_favorite"
-            app:layout_constraintEnd_toStartOf="@id/btnShare"
             android:tint="?attr/colorSecondaryVariant"
+            app:layout_constraintEnd_toStartOf="@id/btn_share"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/btnBackToHome"
+            android:id="@+id/btn_back_to_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/btnShare"
+            android:id="@+id/btn_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@id/img" />
 
         <TextView
-            android:id="@+id/txt_popularity"
+            android:id="@+id/popularity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img" />
 
         <TextView
-            android:id="@+id/txtPopularity"
+            android:id="@+id/txt_popularity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -89,11 +89,11 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@id/line_left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_popularity"
+            app:layout_constraintTop_toBottomOf="@+id/popularity"
             tools:text="3343.123" />
 
         <TextView
-            android:id="@+id/txt_rating"
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img" />
 
         <TextView
-            android:id="@+id/txtRating"
+            android:id="@+id/txt_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -118,7 +118,7 @@
             tools:text="4.2" />
 
         <TextView
-            android:id="@+id/txt_language"
+            android:id="@+id/language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -131,7 +131,7 @@
             app:layout_constraintTop_toBottomOf="@+id/img" />
 
         <TextView
-            android:id="@+id/txtLanguage"
+            android:id="@+id/txt_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -151,7 +151,7 @@
             app:cardElevation="0dp"
             app:cardMaxElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBackToHome">
+            app:layout_constraintTop_toBottomOf="@+id/btn_back_to_home">
 
             <ImageView
                 android:id="@+id/imgPoster"
@@ -222,7 +222,7 @@
             android:textColor="?attr/colorSecondaryVariant"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPopularity" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_popularity" />
 
         <TextView
             android:id="@+id/txtOverview"

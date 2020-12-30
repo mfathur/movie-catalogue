@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.mfathurz.moviecatalogue.R
+import com.mfathurz.moviecatalogue.core.databinding.ItemMovieTvShowRecyclerBinding
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
 import com.mfathurz.moviecatalogue.ui.detail.DetailActivity
-import kotlinx.android.synthetic.main.item_movie_tv_show_recycler.view.*
+
 
 class FavoriteTVShowAdapter(private val activity: Activity) :
     PagedListAdapter<TVShow, FavoriteTVShowAdapter.FavoriteTVShowViewHolder>(
@@ -22,19 +23,20 @@ class FavoriteTVShowAdapter(private val activity: Activity) :
     ) {
 
     inner class FavoriteTVShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemMovieTvShowRecyclerBinding.bind(itemView)
         fun bind(tvShow: TVShow) {
-            with(itemView) {
-                item_txt_title.text = tvShow.name
-                item_txt_date.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
-                item_txt_overview.text = tvShow.overview
+            with(binding) {
+                itemTxtTitle.text = tvShow.name
+                itemTxtDate.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
+                itemTxtOverview.text = tvShow.overview
 
-                item_img_poster.load(Constants.POSTER_PATH_BASE_URL + tvShow.posterPath) {
+                itemImgPoster.load(Constants.POSTER_PATH_BASE_URL + tvShow.posterPath) {
                     crossfade(true)
                     placeholder(R.drawable.image_placeholder)
                     error(R.drawable.ic_broken_image)
                 }
 
-                setOnClickListener {
+                root.setOnClickListener {
                     val intent = Intent(activity, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_DATA, tvShow)
                     intent.putExtra(DetailActivity.DATA_TYPE, DetailActivity.DATA_TV_SHOW)
@@ -50,7 +52,11 @@ class FavoriteTVShowAdapter(private val activity: Activity) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteTVShowViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_movie_tv_show_recycler, parent, false)
+            .inflate(
+                R.layout.item_movie_tv_show_recycler,
+                parent,
+                false
+            )
         return FavoriteTVShowViewHolder(view)
     }
 

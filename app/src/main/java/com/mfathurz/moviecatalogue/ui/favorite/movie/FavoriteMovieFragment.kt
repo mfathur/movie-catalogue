@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mfathurz.moviecatalogue.R
+import com.mfathurz.moviecatalogue.databinding.FragmentFavoriteMovieBinding
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -14,11 +14,16 @@ class FavoriteMovieFragment : Fragment() {
 
     private val viewModel: FavoriteMovieViewModel by viewModel()
 
+    private var _binding: FragmentFavoriteMovieBinding? = null
+    private val binding
+        get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_favorite_movie, container, false)
+        _binding = FragmentFavoriteMovieBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,21 +31,26 @@ class FavoriteMovieFragment : Fragment() {
 
         val favoriteMovieAdapter = FavoriteMovieAdapter(requireActivity())
 
-        rvFavoriteMovie.apply {
+        binding.rvFavoriteMovie.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = favoriteMovieAdapter
         }
 
-        emptyIndicator.visibility = View.VISIBLE
+        binding.emptyIndicator.visibility = View.VISIBLE
 
         viewModel.favoriteMovies.observe(viewLifecycleOwner) { list ->
             favoriteMovieAdapter.submitList(list)
             if (list.isNotEmpty()) {
-                emptyIndicator.visibility = View.GONE
+                binding.emptyIndicator.visibility = View.GONE
             } else {
-                emptyIndicator.visibility = View.VISIBLE
+                binding.emptyIndicator.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

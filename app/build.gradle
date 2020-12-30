@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-kapt'
 }
 
+apply from: '../shared_dependencies.gradle'
+
 def localProperties = new Properties()
 localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
@@ -21,6 +23,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "MOVIE_DB_API_KEY",localProperties.getProperty("moviedbApiKey")
+    }
+
+    buildFeatures{
+        viewBinding = true
     }
 
     buildTypes {
@@ -42,56 +48,6 @@ android {
 }
 
 dependencies {
+    implementation project(":core")
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "androidx.core:core-ktx:$core_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "com.google.android.material:material:$material_version"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
-    implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
-
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
-    androidTestImplementation "androidx.test:rules:$test_rules_version"
-
-    androidTestImplementation "androidx.test.espresso:espresso-core:$test_espresso_version"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$test_espresso_version"
-
-    testImplementation "org.mockito:mockito-core:$test_mockito_core_version"
-    testImplementation "org.mockito:mockito-inline:$test_mockito_inline_version"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$test_mockito_kotlin_version"
-
-    //lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_lifecycle_version"
-    testImplementation "androidx.arch.core:core-testing:$arch_core_testing_version"
-    //COIL - Coroutine Image Loader
-    implementation "io.coil-kt:coil:$coil_version"
-    //coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_test_version"
-    //retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3_version"
-    //idling resource
-    implementation "androidx.test.espresso:espresso-idling-resource:$test_espresso_idlingresource_version"
-    // room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
-    // paging
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
-    //reactive x
-    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$arch_lifecycle_version"
-    //koin
-    implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-android:$koin_version"
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
 }
