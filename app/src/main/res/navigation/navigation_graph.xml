@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mfathurz.moviecatalogue.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.mfathurz.moviecatalogue.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        app:moduleName="favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.mfathurz.moviecatalogue.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="data_movie"
+            android:defaultValue="@null"
+            app:argType="com.mfathurz.moviecatalogue.core.domain.model.Movie"
+            app:nullable="true" />
+        <argument
+            android:name="data_tv_show"
+            android:defaultValue="@null"
+            app:argType="com.mfathurz.moviecatalogue.core.domain.model.TVShow"
+            app:nullable="true" />
+        <argument
+            android:name="data_type"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:action="ACTION_VIEW"
+            app:mimeType="text/plain"
+            app:uri="moviecatalogue://detail" />
+    </fragment>
+
+</navigation>

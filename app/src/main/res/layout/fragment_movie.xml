@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    tools:context=".ui.movie.MovieFragment">
+    android:paddingHorizontal="8dp"
+    tools:context=".home.movie.MovieFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movies"

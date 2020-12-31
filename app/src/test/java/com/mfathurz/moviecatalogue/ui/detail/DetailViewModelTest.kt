@@ -2,7 +2,7 @@ package com.mfathurz.moviecatalogue.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mfathurz.moviecatalogue.db.FakeDataDummy
-import com.mfathurz.moviecatalogue.db.MovieRepository
+import com.mfathurz.moviecatalogue.detail.DetailViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

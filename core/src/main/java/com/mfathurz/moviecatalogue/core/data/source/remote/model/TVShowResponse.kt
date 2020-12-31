@@ -1,8 +1,6 @@
 package com.mfathurz.moviecatalogue.core.data.source.remote.model
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
 data class ListTVShowResponse(
 
@@ -19,7 +17,6 @@ data class ListTVShowResponse(
     val totalResults: Int
 )
 
-@Parcelize
 data class TVShowResponse(
 
     @field:SerializedName("first_air_date")
@@ -60,4 +57,4 @@ data class TVShowResponse(
 
     @field:SerializedName("vote_count")
     val voteCount: Int
-) : Parcelable
+)

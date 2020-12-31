@@ -1,6 +1,7 @@
 package com.mfathurz.moviecatalogue
 
 import android.app.Application
+import android.content.Context
 import com.mfathurz.moviecatalogue.core.di.databaseModule
 import com.mfathurz.moviecatalogue.core.di.networkModule
 import com.mfathurz.moviecatalogue.core.di.repositoryModule

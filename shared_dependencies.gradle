@@ -16,10 +16,16 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$test_mockito_inline_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$test_mockito_kotlin_version"
 
+    //coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_test_version"
+
     //koin
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
+    testImplementation "org.koin:koin-test:$koin_version"
+    androidTestImplementation "org.koin:koin-test:$koin_version"
 
     //COIL - Coroutine Image Loader
     implementation "io.coil-kt:coil:$coil_version"
@@ -31,4 +37,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_lifecycle_version"
     testImplementation "androidx.arch.core:core-testing:$arch_core_testing_version"
+
+    // navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 }
