@@ -5,17 +5,17 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    tools:context=".ui.movie.MovieFragment">
+    android:paddingHorizontal="8dp"
+    tools:context=".home.movie.MovieFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMovies"
+        android:id="@+id/rv_movies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_movie_tv_show_recycler" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

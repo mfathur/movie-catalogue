@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+}
+
+apply from: '../shared_dependencies.gradle'
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        minSdkVersion 22
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        buildConfigField "String", "MOVIE_DB_API_KEY",localProperties.getProperty("moviedbApiKey")
+    }
+
+    buildFeatures{
+        viewBinding = true
+    }
+
+
+    buildTypes {
+        debug{
+            buildConfigField("String","MOVIE_DB_API_KEY","\""+localProperties['moviedbApiKey']+"\"")
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3_version"
+    //reactive x
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    api "androidx.lifecycle:lifecycle-reactivestreams-ktx:$arch_lifecycle_version"
+    //idling resource
+    implementation "androidx.test.espresso:espresso-idling-resource:$test_espresso_idlingresource_version"
+    // room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+
+}

@@ -6,7 +6,6 @@
     <string name="setting">Setting</string>
     <string name="content_desc_btn_back_to_home">Back to home screen</string>
     <string name="overview">Overview</string>
-    <string name="poster_image">poster image</string>
     <string name="cast">Cast</string>
     <string name="popularity">Popularity</string>
     <string name="rating">Rating</string>
@@ -24,4 +23,5 @@
     <string name="cancel">Cancel</string>
     <string name="add_to_favorite_succeed">Added to your favorite list</string>
     <string name="empty_favorite_tv_show">You have no favorite tv show</string>
+    <string name="title_favorite">Favorite</string>
 </resources>

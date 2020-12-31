@@ -12,11 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogue">
-        <activity android:name=".ui.favorite.FavoriteActivity" />
-        <activity android:name=".ui.detail.DetailActivity" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/navigation_graph" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
