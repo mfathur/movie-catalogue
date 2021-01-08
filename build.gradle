@@ -36,6 +36,10 @@ buildscript {
 
     ext.koin_version = "2.1.6"
     ext.nav_version = "2.3.2"
+    ext.fragment_version = "1.2.5"
+    ext.leak_canary_version ="2.4"
+    ext.sqlite_version = "2.1.0"
+    ext.sqlcipher_version ="4.4.0"
 
     repositories {
         google()

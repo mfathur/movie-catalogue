@@ -12,7 +12,7 @@ import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
-import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
+import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.core.utils.showToast
 import com.mfathurz.moviecatalogue.databinding.FragmentDetailBinding
 import kotlinx.coroutines.CoroutineScope
@@ -92,19 +92,26 @@ class DetailFragment : Fragment(), View.OnClickListener {
                 placeholder(R.drawable.image_placeholder)
                 error(R.drawable.ic_broken_image)
             }
-            val genres = viewModel.getMovieGenres()
             CoroutineScope(Dispatchers.IO).launch {
-                var genre = ""
+                val genres = viewModel.getMovieGenres()
+                var count = 0
+                val genre = StringBuilder()
                 movie.genreIds?.forEach { genreId ->
                     for (item in genres) {
                         if (item.id == genreId) {
-                            genre += item.name + " "
+                            count++
+                            if (count > 1) {
+                                genre.append(" | " + item.name)
+                            } else {
+                                genre.append(item.name)
+                            }
                         }
                     }
                 }
                 withContext(Dispatchers.Main) {
                     binding.txtCategory.text = genre
                 }
+
             }
 
             binding.txtTitle.text = movie.title
@@ -112,7 +119,7 @@ class DetailFragment : Fragment(), View.OnClickListener {
             binding.txtPopularity.text = movie.popularity.toString()
             binding.txtRating.text = movie.voteAverage.toString()
             binding.txtOverview.text = movie.overview
-            binding.txtReleasedDate.text = UtilsHelper.changeDateFormat(movie.releaseDate)
+            binding.txtReleasedDate.text = Helpers.changeDateFormat(movie.releaseDate)
 
         } else if (type == DATA_TV_SHOW) {
             val tvShow = viewModel.getTVShowData()
@@ -121,13 +128,20 @@ class DetailFragment : Fragment(), View.OnClickListener {
                 placeholder(R.drawable.image_placeholder)
                 error(R.drawable.ic_broken_image)
             }
-            val genres = viewModel.getTVShowGenres()
+
             CoroutineScope(Dispatchers.IO).launch {
-                var genre = ""
+                val genres = viewModel.getTVShowGenres()
+                val genre = StringBuilder()
+                var count = 0
                 tvShow.genreIds?.forEach { genreId ->
                     for (item in genres) {
                         if (item.id == genreId) {
-                            genre += item.name + " "
+                            count++
+                            if (count > 1) {
+                                genre.append(" | " + item.name)
+                            } else {
+                                genre.append(item.name)
+                            }
                         }
                     }
                 }
@@ -137,12 +151,11 @@ class DetailFragment : Fragment(), View.OnClickListener {
             }
 
             binding.txtTitle.text = tvShow.name
-            binding.txtCategory.text = tvShow.genreIds.toString()
             binding.txtLanguage.text = tvShow.originalLanguage
             binding.txtPopularity.text = tvShow.popularity.toString()
             binding.txtRating.text = tvShow.voteAverage.toString()
             binding.txtOverview.text = tvShow.overview
-            binding.txtReleasedDate.text = UtilsHelper.changeDateFormat(tvShow.firstAirDate)
+            binding.txtReleasedDate.text = Helpers.changeDateFormat(tvShow.firstAirDate)
         }
     }
 

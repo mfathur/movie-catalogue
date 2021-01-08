@@ -4,9 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +13,7 @@ import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.databinding.ItemMovieTvShowRecyclerBinding
 import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.utils.Constants
-import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
+import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.detail.DetailFragment
 
 class MovieRecyclerAdapter :
@@ -26,7 +24,7 @@ class MovieRecyclerAdapter :
         fun bind(item: Movie) {
             with(binding) {
                 itemTxtTitle.text = item.title
-                itemTxtDate.text = UtilsHelper.changeDateFormat(item.releaseDate)
+                itemTxtDate.text = Helpers.changeDateFormat(item.releaseDate)
                 itemTxtOverview.text = item.overview
 
                 itemImgPoster.load(Constants.POSTER_PATH_BASE_URL + item.posterPath) {

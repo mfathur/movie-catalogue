@@ -83,7 +83,7 @@ object DataMapper {
             genreIds = tvShow.genreIds,
             posterPath = tvShow.posterPath,
             originCountry = tvShow.originCountry,
-            backdropPath = tvShow.backdropPath,
+            backdropPath = tvShow.backdropPath ?: "",
             originalName = tvShow.originalName,
             popularity = tvShow.popularity,
             voteAverage = tvShow.voteAverage,

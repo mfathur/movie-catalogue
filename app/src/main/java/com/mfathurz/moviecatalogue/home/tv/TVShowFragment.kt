@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfathurz.moviecatalogue.core.data.Resource
-import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.databinding.FragmentTvShowBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 

@@ -12,7 +12,7 @@ data class TVShow(
     val genreIds: List<Int>?,
     val posterPath: String,
     val originCountry: List<String>,
-    val backdropPath: String,
+    val backdropPath: String?,
     val originalName: String,
     val popularity: Double,
     val voteAverage: Double,
