@@ -24,6 +24,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         buildConfigField "String", "MOVIE_DB_API_KEY",localProperties.getProperty("moviedbApiKey")
+        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",localProperties.getProperty("localDbKey")
     }
 
     buildFeatures{
@@ -34,6 +35,7 @@ android {
     buildTypes {
         debug{
             buildConfigField("String","MOVIE_DB_API_KEY","\""+localProperties['moviedbApiKey']+"\"")
+            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+localProperties['localDbKey']+"\"")
         }
         release {
             minifyEnabled false
@@ -68,4 +70,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "net.zetetic:android-database-sqlcipher:$sqlcipher_version"
+    implementation "androidx.sqlite:sqlite-ktx:$sqlite_version"
 }
