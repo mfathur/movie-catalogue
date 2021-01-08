@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 apply from: '../shared_dependencies.gradle'
@@ -45,5 +46,6 @@ android {
 dependencies {
     implementation project(":core")
     implementation project(":app")
+    //noinspection GradleDependency
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

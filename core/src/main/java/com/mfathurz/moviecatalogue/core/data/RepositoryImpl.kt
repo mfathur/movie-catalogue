@@ -10,6 +10,7 @@ import com.mfathurz.moviecatalogue.core.domain.model.Movie
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.domain.repository.IRepository
 import com.mfathurz.moviecatalogue.core.utils.DataMapper
+import com.mfathurz.moviecatalogue.core.utils.EspressoIdlingResource
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,7 +27,7 @@ class RepositoryImpl(
         val popularMovies =
             PublishSubject.create<Resource<List<Movie>>>()
         val compositeDisposable = CompositeDisposable()
-
+        EspressoIdlingResource.increment()
         popularMovies.onNext(
             Resource.Loading(
                 emptyList()
@@ -39,6 +40,7 @@ class RepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
                 compositeDisposable.dispose()
+                EspressoIdlingResource.decrement()
             }
             .subscribe { response ->
                 when (response) {
@@ -66,6 +68,7 @@ class RepositoryImpl(
 
         val compositeDisposable = CompositeDisposable()
 
+        EspressoIdlingResource.increment()
         popularTVShows.onNext(Resource.Loading(emptyList()))
         compositeDisposable.add(
             remoteDataSource.getPopularTVShows()
@@ -74,6 +77,7 @@ class RepositoryImpl(
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
                     compositeDisposable.dispose()
+                    EspressoIdlingResource.decrement()
                 }
                 .subscribe { response ->
                     when (response) {

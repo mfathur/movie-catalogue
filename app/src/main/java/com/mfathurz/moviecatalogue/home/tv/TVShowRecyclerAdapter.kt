@@ -13,7 +13,7 @@ import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.core.databinding.ItemMovieTvShowRecyclerBinding
 import com.mfathurz.moviecatalogue.core.domain.model.TVShow
 import com.mfathurz.moviecatalogue.core.utils.Constants
-import com.mfathurz.moviecatalogue.core.utils.UtilsHelper
+import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.detail.DetailFragment
 
 class TVShowRecyclerAdapter :
@@ -24,7 +24,7 @@ class TVShowRecyclerAdapter :
         fun bind(item: TVShow) {
             with(binding) {
                 itemTxtTitle.text = item.name
-                itemTxtDate.text = UtilsHelper.changeDateFormat(item.firstAirDate)
+                itemTxtDate.text = Helpers.changeDateFormat(item.firstAirDate)
                 itemTxtOverview.text = item.overview
 
                 itemImgPoster.load(Constants.POSTER_PATH_BASE_URL + item.posterPath) {

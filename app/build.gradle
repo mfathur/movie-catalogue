@@ -8,22 +8,18 @@ plugins {
 
 apply from: '../shared_dependencies.gradle'
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.mfathurz.moviecatalogue"
         minSdkVersion 22
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "MOVIE_DB_API_KEY",localProperties.getProperty("moviedbApiKey")
     }
 
     buildFeatures{
@@ -31,9 +27,6 @@ android {
     }
 
     buildTypes {
-        debug{
-            buildConfigField("String","MOVIE_DB_API_KEY","\""+localProperties['moviedbApiKey']+"\"")
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -51,8 +44,5 @@ android {
 
 dependencies {
     implementation project(":core")
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

@@ -39,7 +39,7 @@ val networkModule = module {
             .build()
     }
 
-    factory { JsonHelper(androidContext()) }
+    factory { JsonHelper(get()) }
 
     single {
         val retrofit = Retrofit.Builder()
