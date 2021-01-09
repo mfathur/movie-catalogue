@@ -8,8 +8,8 @@ plugins {
 
 apply from: '../shared_dependencies.gradle'
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("gradle.properties")))
+def gradleProperties = new Properties()
+gradleProperties.load(new FileInputStream(rootProject.file("gradle.properties")))
 
 android {
     compileSdkVersion 30
@@ -23,8 +23,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        buildConfigField "String", "MOVIE_DB_API_KEY",localProperties.getProperty("moviedbApiKey")
-        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",localProperties.getProperty("localDbKey")
+        buildConfigField "String", "MOVIE_DB_API_KEY",gradleProperties.getProperty("moviedbApiKey")
+        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",gradleProperties.getProperty("localDbKey")
     }
 
     buildFeatures{
@@ -34,8 +34,8 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField("String","MOVIE_DB_API_KEY","\""+localProperties['moviedbApiKey']+"\"")
-            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+localProperties['localDbKey']+"\"")
+            buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['moviedbApiKey']+"\"")
+            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['localDbKey']+"\"")
         }
         release {
             minifyEnabled false

@@ -32,10 +32,12 @@ class DetailViewModel(
 
     fun setMovieData(movieResultsItem: Movie) {
         _movie = movieResultsItem
+        isAlreadyFavorite(DATA_MOVIE)
     }
 
     fun setTVShowData(tvResultsItem: TVShow) {
         _tvShow = tvResultsItem
+        isAlreadyFavorite(DATA_TV_SHOW)
     }
 
     fun setDataType(type: Int) {
@@ -52,7 +54,7 @@ class DetailViewModel(
 
     fun getTVShowGenres(): List<GenreItem> = tvShowUseCase.getTVShowGenres()
 
-    fun isAlreadyFavorite(type: Int) = viewModelScope.launch {
+    private fun isAlreadyFavorite(type: Int) = viewModelScope.launch {
         if (type == DATA_MOVIE) {
             val deferredFavoriteMovies = async(IO) {
                 movieUseCase.getAllFavoriteMovies()
@@ -65,7 +67,8 @@ class DetailViewModel(
                     break
                 }
             }
-        } else if (type == DATA_TV_SHOW) {
+        }
+        if (type == DATA_TV_SHOW) {
             val deferredFavoriteTVShows = async(IO) {
                 tvShowUseCase.getAllFavoriteTVShow()
             }
