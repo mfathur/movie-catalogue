@@ -2,15 +2,15 @@ version: 2.1
  
 orbs:
   android: circleci/android@0.2.3
+
+dependencies:
+  pre: source environmentSetup.sh && copyEnvVarsToGradleProperties
  
 jobs:
   build:
     executor: android/android
     steps:
       - checkout
-      - dependencies:
-          pre:
-            - source environmentSetup.sh && copyEnvVarsToGradleProperties
       - restore_cache:
           key: android-orb-v1-
       - run:
