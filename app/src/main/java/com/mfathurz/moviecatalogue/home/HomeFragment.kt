@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
             (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
         }
 
-        binding.viewPager.adapter = HomeViewPagerAdapter(requireActivity())
+        binding.viewPager.adapter = HomeViewPagerAdapter(this)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { currentTab, currentPosition ->
             currentTab.text = when (currentPosition) {

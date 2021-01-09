@@ -33,7 +33,6 @@ class MovieRecyclerAdapter :
                     error(R.drawable.ic_broken_image)
                 }
                 root.setOnClickListener {
-//                    onItemClickCallback.onItemClicked(item)
                     val arg = bundleOf(
                         DetailFragment.EXTRA_DATA to item,
                         DetailFragment.DATA_TYPE to DetailFragment.DATA_MOVIE

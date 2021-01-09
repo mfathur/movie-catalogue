@@ -2,12 +2,13 @@ package com.mfathurz.moviecatalogue.home
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mfathurz.moviecatalogue.home.movie.MovieFragment
 import com.mfathurz.moviecatalogue.home.tv.TVShowFragment
 
 
-class HomeViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+class HomeViewPagerAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {

@@ -43,17 +43,26 @@ class FavoriteTVShowFragment : Fragment() {
             adapter = favoriteTVShowAdapter
         }
 
-        binding.emptyIndicator.visibility = View.VISIBLE
+        showEmptyState(true)
 
         viewModel.favoriteTVShows.observe(viewLifecycleOwner, { list ->
             favoriteTVShowAdapter.submitList(list)
             if (list.isNotEmpty()) {
-                binding.emptyIndicator.visibility = View.GONE
+                showEmptyState(false)
             } else {
-                binding.emptyIndicator.visibility = View.VISIBLE
+                showEmptyState(true)
             }
-
         })
+    }
+
+    private fun showEmptyState(state: Boolean) {
+        if (state) {
+            binding.emptyImageIndicator.visibility = View.VISIBLE
+            binding.emptyTextIndicator.visibility = View.VISIBLE
+        } else {
+            binding.emptyImageIndicator.visibility = View.GONE
+            binding.emptyTextIndicator.visibility = View.GONE
+        }
     }
 
     override fun onDestroy() {
