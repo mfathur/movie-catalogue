@@ -1,7 +1,6 @@
 package com.mfathurz.moviecatalogue.favorite
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mfathurz.moviecatalogue.favorite.movie.FavoriteMovieFragment
 import com.mfathurz.moviecatalogue.favorite.tv.FavoriteTVShowFragment
