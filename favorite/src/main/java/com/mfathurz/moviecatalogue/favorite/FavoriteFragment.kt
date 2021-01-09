@@ -39,7 +39,7 @@ class FavoriteFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        binding.viewPager.adapter = FavoriteViewPagerAdapter(requireActivity())
+        binding.viewPager.adapter = FavoriteViewPagerAdapter(this)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { currentTab, currentPosition ->
             currentTab.text = when (currentPosition) {

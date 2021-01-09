@@ -13,11 +13,36 @@
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_movie_tv_show_recycler" />
 
-    <ProgressBar
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+                <include layout="@layout/item_movie_tv_show_placeholder" />
+
+            </LinearLayout>
+        </ScrollView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </RelativeLayout>

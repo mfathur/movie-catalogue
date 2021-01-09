@@ -87,11 +87,13 @@ class DetailFragment : Fragment(), View.OnClickListener {
 
         if (type == DATA_MOVIE) {
             val movie = viewModel.getMovieData()
+
             binding.imgPoster.load(Constants.POSTER_PATH_BASE_URL + movie.posterPath) {
                 crossfade(true)
                 placeholder(R.drawable.image_placeholder)
                 error(R.drawable.ic_broken_image)
             }
+
             CoroutineScope(Dispatchers.IO).launch {
                 val genres = viewModel.getMovieGenres()
                 var count = 0
