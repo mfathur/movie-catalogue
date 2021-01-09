@@ -9,7 +9,7 @@ plugins {
 apply from: '../shared_dependencies.gradle'
 
 def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+localProperties.load(new FileInputStream(rootProject.file("gradle.properties")))
 
 android {
     compileSdkVersion 30
