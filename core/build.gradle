@@ -34,6 +34,8 @@ android {
 
     buildTypes {
         release {
+            buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['MOVIE_DB_API_KEY_ENV_VAR']+"\"")
+            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['LOCAL_DB_KEY_ENV_VAR']+"\"")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
