@@ -33,20 +33,6 @@
         android:name="com.mfathurz.moviecatalogue.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
-        <argument
-            android:name="data_movie"
-            android:defaultValue="@null"
-            app:argType="com.mfathurz.moviecatalogue.core.domain.model.Movie"
-            app:nullable="true" />
-        <argument
-            android:name="data_tv_show"
-            android:defaultValue="@null"
-            app:argType="com.mfathurz.moviecatalogue.core.domain.model.TVShow"
-            app:nullable="true" />
-        <argument
-            android:name="data_type"
-            android:defaultValue="0"
-            app:argType="integer" />
         <deepLink
             android:id="@+id/deepLink"
             app:action="ACTION_VIEW"
