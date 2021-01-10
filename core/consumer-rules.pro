@@ -1,3 +1,6 @@
+-keepnames class com.mfathurz.moviecatalogue.core.domain.model.Movie
+-keepnames class com.mfathurz.moviecatalogue.core.domain.model.TVShow
+
 -keep,includedescriptorclasses class net.sqlcipher.** { *; }
 -keep,includedescriptorclasses interface net.sqlcipher.** { *; }
 

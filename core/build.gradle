@@ -23,8 +23,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        buildConfigField "String", "MOVIE_DB_API_KEY",gradleProperties.getProperty("moviedbApiKey")
-        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",gradleProperties.getProperty("localDbKey")
+        buildConfigField "String", "MOVIE_DB_API_KEY",gradleProperties.getProperty("MOVIE_DB_API_KEY_ENV_VAR")
+        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",gradleProperties.getProperty("LOCAL_DB_KEY_ENV_VAR")
     }
 
     buildFeatures{
@@ -38,8 +38,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug{
-            buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['moviedbApiKey']+"\"")
-            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['localDbKey']+"\"")
+            buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['MOVIE_DB_API_KEY_ENV_VAR']+"\"")
+            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['LOCAL_DB_KEY_ENV_VAR']+"\"")
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
