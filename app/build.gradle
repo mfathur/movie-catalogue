@@ -8,6 +8,9 @@ plugins {
 
 apply from: '../shared_dependencies.gradle'
 
+def gradleProperties = new Properties()
+gradleProperties.load(new FileInputStream(rootProject.file("gradle.properties")))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -20,6 +23,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "MOVIE_DB_API_KEY",gradleProperties.getProperty("moviedbApiKey")
+        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",gradleProperties.getProperty("localDbKey")
     }
 
     buildFeatures{
@@ -28,9 +33,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{
+            buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['moviedbApiKey']+"\"")
+            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['localDbKey']+"\"")
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

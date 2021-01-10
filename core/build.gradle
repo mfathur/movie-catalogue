@@ -33,12 +33,14 @@ android {
 
 
     buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         debug{
             buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['moviedbApiKey']+"\"")
             buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['localDbKey']+"\"")
-        }
-        release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
