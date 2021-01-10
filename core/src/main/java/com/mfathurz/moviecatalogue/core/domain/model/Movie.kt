@@ -1,7 +1,6 @@
 package com.mfathurz.moviecatalogue.core.domain.model
 
 import android.os.Parcelable
-import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

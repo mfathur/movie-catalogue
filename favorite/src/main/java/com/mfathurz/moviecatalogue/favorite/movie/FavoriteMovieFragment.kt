@@ -27,7 +27,7 @@ class FavoriteMovieFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFavoriteMovieBinding.inflate(inflater, container, false)
         return binding.root
     }
