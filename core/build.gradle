@@ -1,30 +1,30 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
 }
 
 apply from: '../shared_dependencies.gradle'
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+def gradleProperties = new Properties()
+gradleProperties.load(new FileInputStream(rootProject.file("gradle.properties")))
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        buildConfigField "String", "MOVIE_DB_API_KEY",localProperties.getProperty("moviedbApiKey")
-        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",localProperties.getProperty("localDbKey")
+        buildConfigField "String", "MOVIE_DB_API_KEY",gradleProperties.getProperty("MOVIE_DB_API_KEY_ENV_VAR")
+        buildConfigField "String", "LOCAL_DB_ENCRYPT_KEY",gradleProperties.getProperty("LOCAL_DB_KEY_ENV_VAR")
     }
 
     buildFeatures{
@@ -33,12 +33,14 @@ android {
 
 
     buildTypes {
-        debug{
-            buildConfigField("String","MOVIE_DB_API_KEY","\""+localProperties['moviedbApiKey']+"\"")
-            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+localProperties['localDbKey']+"\"")
-        }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            buildConfigField("String","MOVIE_DB_API_KEY","\""+gradleProperties['MOVIE_DB_API_KEY_ENV_VAR']+"\"")
+            buildConfigField("String","LOCAL_DB_ENCRYPT_KEY","\""+gradleProperties['LOCAL_DB_KEY_ENV_VAR']+"\"")
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

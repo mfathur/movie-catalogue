@@ -30,6 +30,6 @@
         android:fontFamily="@font/montserrat_regular"
         android:text="@string/empty_favorite_tv_show"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
 </RelativeLayout>

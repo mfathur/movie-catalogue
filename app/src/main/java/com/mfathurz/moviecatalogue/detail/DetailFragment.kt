@@ -62,13 +62,11 @@ class DetailFragment : Fragment(), View.OnClickListener {
                 DATA_MOVIE -> {
                     val data = it.getParcelable<Movie>(EXTRA_DATA)
                     viewModel.setMovieData(data as Movie)
-                    viewModel.isAlreadyFavorite(DATA_MOVIE)
                 }
 
                 DATA_TV_SHOW -> {
                     val data = it.getParcelable<TVShow>(EXTRA_DATA)
                     viewModel.setTVShowData(data as TVShow)
-                    viewModel.isAlreadyFavorite(DATA_TV_SHOW)
                 }
                 else -> {
                 }
