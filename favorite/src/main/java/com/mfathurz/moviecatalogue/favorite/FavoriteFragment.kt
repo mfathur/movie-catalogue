@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.tabs.TabLayoutMediator
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.favorite.databinding.FragmentFavoriteBinding
 
@@ -40,15 +38,9 @@ class FavoriteFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        binding.viewPager.adapter = FavoriteViewPagerAdapter(this)
+        binding.viewPager.adapter = FavoriteViewPagerAdapter(requireContext(), childFragmentManager)
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { currentTab, currentPosition ->
-            currentTab.text = when (currentPosition) {
-                FavoriteViewPagerAdapter.FAVORITE_MOVIE_FRAGMENT -> getString(R.string.movie_fragment_title)
-                FavoriteViewPagerAdapter.FAVORITE_TV_SHOW_FRAGMENT -> getString(R.string.tv_show_fragment_title)
-                else -> getString(R.string.viewpager_error)
-            }
-        }.attach()
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 
 

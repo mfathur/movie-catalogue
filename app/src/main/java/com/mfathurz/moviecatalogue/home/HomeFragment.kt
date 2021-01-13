@@ -6,12 +6,11 @@ import android.provider.Settings
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment(), LifecycleOwner {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding
