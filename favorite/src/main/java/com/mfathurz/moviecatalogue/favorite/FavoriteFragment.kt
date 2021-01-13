@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.favorite.databinding.FragmentFavoriteBinding

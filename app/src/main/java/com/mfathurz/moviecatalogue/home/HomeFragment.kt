@@ -6,12 +6,12 @@ import android.provider.Settings
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.tabs.TabLayoutMediator
 import com.mfathurz.moviecatalogue.R
 import com.mfathurz.moviecatalogue.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), LifecycleOwner {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding
@@ -34,15 +34,8 @@ class HomeFragment : Fragment() {
             (activity as AppCompatActivity).setSupportActionBar(binding.homeToolbar)
         }
 
-        binding.viewPager.adapter = HomeViewPagerAdapter(this)
-
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { currentTab, currentPosition ->
-            currentTab.text = when (currentPosition) {
-                HomeViewPagerAdapter.MOVIE_FRAGMENT -> getString(R.string.movie_fragment_title)
-                HomeViewPagerAdapter.TV_SHOW_FRAGMENT -> getString(R.string.tv_show_fragment_title)
-                else -> getString(R.string.viewpager_error)
-            }
-        }.attach()
+        binding.viewPager.adapter = HomeViewPagerAdapter(requireContext(), childFragmentManager)
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
