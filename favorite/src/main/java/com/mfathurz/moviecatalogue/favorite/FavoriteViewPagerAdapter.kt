@@ -31,7 +31,7 @@ class FavoriteViewPagerAdapter(private val context: Context, fa: FragmentManager
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return context.resources.getString(tabTitles[position])
     }
 }
