@@ -1,5 +1,6 @@
 package com.mfathurz.moviecatalogue.home.movie
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.detail.DetailFragment
 
-class MovieRecyclerAdapter :
+class MovieRecyclerAdapter(private val activity:Activity) :
     ListAdapter<Movie, MovieRecyclerAdapter.MovieViewHolder>(MOVIE_DIFF_UTIL_CALLBACK) {
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -44,6 +45,7 @@ class MovieRecyclerAdapter :
                         .createPendingIntent()
 
                     pendingIntent.send()
+                    activity.finishAfterTransition()
                 }
             }
         }

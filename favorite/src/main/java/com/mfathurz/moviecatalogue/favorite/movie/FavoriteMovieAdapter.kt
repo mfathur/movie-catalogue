@@ -1,5 +1,6 @@
 package com.mfathurz.moviecatalogue.favorite.movie
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.detail.DetailFragment
 
-class FavoriteMovieAdapter :
+class FavoriteMovieAdapter(private val activity: Activity) :
     PagedListAdapter<Movie, FavoriteMovieAdapter.FavoriteMovieViewHolder>(
         FAVORITE_MOVIE_COMPARATOR
     ) {
@@ -46,7 +47,9 @@ class FavoriteMovieAdapter :
                         .setDestination(R.id.detailFragment)
                         .setArguments(arg)
                         .createPendingIntent()
+
                     pendingIntent.send()
+                    activity.finishAfterTransition()
                 }
             }
         }

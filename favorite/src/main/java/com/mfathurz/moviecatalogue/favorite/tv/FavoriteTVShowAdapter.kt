@@ -1,5 +1,6 @@
 package com.mfathurz.moviecatalogue.favorite.tv
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.detail.DetailFragment
 
 
-class FavoriteTVShowAdapter :
+class FavoriteTVShowAdapter(private val activity: Activity) :
     PagedListAdapter<TVShow, FavoriteTVShowAdapter.FavoriteTVShowViewHolder>(
         TV_SHOW_COMPARATOR
     ) {
@@ -47,7 +48,9 @@ class FavoriteTVShowAdapter :
                         .setDestination(R.id.detailFragment)
                         .setArguments(arg)
                         .createPendingIntent()
+
                     pendingIntent.send()
+                    activity.finishAfterTransition()
                 }
             }
         }

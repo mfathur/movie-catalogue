@@ -35,7 +35,7 @@ class FavoriteMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val favoriteMovieAdapter = FavoriteMovieAdapter()
+        val favoriteMovieAdapter = FavoriteMovieAdapter(requireActivity())
 
         binding.rvFavoriteMovie.apply {
             layoutManager = LinearLayoutManager(requireContext())

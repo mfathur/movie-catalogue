@@ -35,7 +35,7 @@ class HomeViewPagerAdapter(private val context: Context, fm: FragmentManager) :
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return context.resources.getString(tabTitles[position])
     }
 

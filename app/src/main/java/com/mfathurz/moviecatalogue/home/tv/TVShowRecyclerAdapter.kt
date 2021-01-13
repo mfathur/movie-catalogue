@@ -1,5 +1,6 @@
 package com.mfathurz.moviecatalogue.home.tv
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.mfathurz.moviecatalogue.core.utils.Constants
 import com.mfathurz.moviecatalogue.core.utils.Helpers
 import com.mfathurz.moviecatalogue.detail.DetailFragment
 
-class TVShowRecyclerAdapter :
+class TVShowRecyclerAdapter(private val activity: Activity) :
     ListAdapter<TVShow, TVShowRecyclerAdapter.TVShowViewHolder>(TV_SHOW_DIFF_CALLBACK) {
 
     inner class TVShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,6 +46,7 @@ class TVShowRecyclerAdapter :
                         .createPendingIntent()
 
                     pendingIntent.send()
+                    activity.finishAfterTransition()
                 }
             }
         }

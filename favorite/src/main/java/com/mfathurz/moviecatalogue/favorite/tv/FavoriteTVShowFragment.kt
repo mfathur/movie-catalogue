@@ -36,7 +36,7 @@ class FavoriteTVShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val favoriteTVShowAdapter = FavoriteTVShowAdapter()
+        val favoriteTVShowAdapter = FavoriteTVShowAdapter(requireActivity())
 
         binding.rvFavoriteTvShow.apply {
             layoutManager = LinearLayoutManager(requireContext())
