@@ -31,7 +31,7 @@ class TVShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerAdapter = TVShowRecyclerAdapter()
+        val recyclerAdapter = TVShowRecyclerAdapter(requireActivity())
         binding.progressBar.visibility = View.VISIBLE
 
         viewModel.popularTVShows.observe(viewLifecycleOwner, { listTVShows ->

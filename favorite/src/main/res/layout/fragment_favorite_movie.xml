@@ -25,7 +25,7 @@
         android:fontFamily="@font/montserrat_regular"
         android:text="@string/empty_favorite_movie"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite_movie"

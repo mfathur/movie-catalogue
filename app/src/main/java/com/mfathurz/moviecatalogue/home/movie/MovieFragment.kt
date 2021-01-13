@@ -30,7 +30,7 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerAdapter = MovieRecyclerAdapter()
+        val recyclerAdapter = MovieRecyclerAdapter(requireActivity())
 
         viewModel.popularMovies.observe(viewLifecycleOwner, { listMovies ->
             when (listMovies) {
